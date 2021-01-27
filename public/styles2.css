@@ -1,0 +1,69 @@
+body {
+  font-family: Verdana, sans-serif;
+  background-image: linear-gradient(#4c94a8, #13424f);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  background-color: #043542;
+  border: 3px solid aqua;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+h4 {
+  padding-top: 10px;
+}
+
+h5{
+  padding-bottom: 2px;
+}
+
+.graphBox {
+  display: block;
+  margin: auto;
+  width: 95%;
+  height: 540px;
+  text-align: center;
+  background-image: linear-gradient(#f0f3ff, #b4bad4);
+  border: 3px solid #23465c;
+  border-radius: 10px;
+}
+
+.dataBox {
+  display: block;
+  margin: auto;
+  text-align: center;
+  width: 350px;
+  height: 215px;
+  background-image: linear-gradient(#58adc4, #1e6d82);
+  border: 3px solid aqua;
+  border-radius: 10px;
+}
+
+.logoutButton {
+  display: inline-block;
+  height: 30px;
+  width: 90px;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-left: 20px;
+  background-color: #043542;
+  color: white;
+}
+
+.powerButton {
+  height: 30px;
+  width: 90px;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-right: 20px;
+  background-color: #bd0808;
+  color: white;
+  float: right;
+}

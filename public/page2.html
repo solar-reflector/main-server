@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="styles2.css">
+</head>
+<body>
+  <h1>INTELLIGENT SOLAR REFLECTOR</h1>
+
+  <div class="graphBox">
+      <canvas id="myChart" style="width:90%;height:90%"></canvas>
+  </div><br>
+
+  <div class="dataBox">
+    <h5 style="color: white;">STATE: Normal Opertion</h5>
+    <h5 style="color: white;">WIND SPEED: 22 km/hr</h5>
+    <h5 style="color: white;">WIND SURVIVAL SPEED: 60 km/hr</h5>
+    <h5 style="color: white;">AMBIENT TEMPERATURE: 15&#8451;</h5>
+    <h5 style="color: white;">SNOW WARNING: None</h5>
+  </div>
+
+  <button id="logout" class="logoutButton">LOG OUT</button>
+  <input type="submit" class="powerButton" value="ON/OFF">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
+  <script src="auth2.js"></script>
+
+</body>
+</html>
