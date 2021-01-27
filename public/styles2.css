@@ -44,15 +44,28 @@ h5{
   border-radius: 10px;
 }
 
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
 .logoutButton {
-  display: inline-block;
   height: 30px;
   width: 90px;
   font-weight: bold;
   border-radius: 5px;
   margin-top: 20px;
-  margin-left: 20px;
   background-color: #043542;
+  color: white;
+}
+
+.settingsButton {
+  height: 30px;
+  width: 90px;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 20px;
+  background-color: #1e6d82;
   color: white;
 }
 
@@ -62,8 +75,6 @@ h5{
   font-weight: bold;
   border-radius: 5px;
   margin-top: 20px;
-  margin-right: 20px;
   background-color: #bd0808;
   color: white;
-  float: right;
 }
