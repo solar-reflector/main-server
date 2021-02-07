@@ -11,16 +11,16 @@
   </div><br>
 
   <div class="dataBox">
-    <h5 style="color: white;">STATE: Normal Opertion</h5>
-    <h5 style="color: white;">WIND SPEED: 22 km/hr</h5>
-    <h5 style="color: white;">WIND SURVIVAL SPEED: 60 km/hr</h5>
-    <h5 style="color: white;">AMBIENT TEMPERATURE: 15C</h5>
-    <h5 style="color: white;">SNOW WARNING: None</h5>
+    <h5 style="color:white;">STATE: Normal Opertion</h5>
+    <h5 style="color:white;">WIND SPEED: 22 km/hr</h5>
+    <h5 id="windMessage" style="color:white;">WIND SURVIVAL SPEED: 0 km/hr</h5>
+    <h5 style="color:white;">AMBIENT TEMPERATURE: 15C</h5>
+    <h5 style="color:white;">SNOW WARNING: None</h5>
   </div>
 
   <div class="container">
     <button id="logout" class="logoutButton">LOG OUT</button>
-    <button class="settingsButton">SETTINGS</button>
+    <button onclick="onOffClicked()" class="settingsButton">SETTINGS</button>
     <button class="powerButton">ON/OFF</button>
   </div>
 
@@ -29,6 +29,21 @@
   <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
   <script src="auth2.js"></script>
+
+  <!--SIO-->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io.connect();
+
+    function onOffClicked(){
+      socket.emit('clicked');
+    }
+
+    // Do this when recieve butonUpdate
+    socket.on('windUpdate', function(data){
+      document.getElementById("windMessage").innerHTML = 'WIND SURVIVAL SPEED: ' + data + ' km/hr';
+	   });
+  </script>
 
 </body>
 </html>
