@@ -20,8 +20,8 @@
 
   <div class="container">
     <button id="logout" class="logoutButton">LOG OUT</button>
-    <button onclick="onOffClicked()" class="settingsButton">SETTINGS</button>
-    <button class="powerButton">ON/OFF</button>
+    <button onclick="settingsClicked()" class="settingsButton">SETTINGS</button>
+    <button onclick="onOffClicked()"class="powerButton">ON/OFF</button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -30,19 +30,27 @@
   <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
   <script src="auth2.js"></script>
 
-  <!--SIO-->
-  <script src="/socket.io/socket.io.js"></script>
   <script>
-    var socket = io.connect();
+		var host = location.origin.replace(/^http/,'ws');
+    var ws = new WebSocket(host);
 
-    function onOffClicked(){
-      socket.emit('clicked');
+    function settingsClicked(){
+      ws.send('{"topic":"settingsClicked"}');
     }
 
-    // Do this when recieve butonUpdate
-    socket.on('windUpdate', function(data){
-      document.getElementById("windMessage").innerHTML = 'WIND SURVIVAL SPEED: ' + data + ' km/hr';
-	   });
+    function onOffClicked(){
+      ws.send('{"topic":"onOffClicked"}');
+    }
+
+    ws.onmessage = function(event) {
+      console.log(event);
+      var json = JSON.parse(event.data);
+      switch(json.topic){
+        case 'windUpdate':
+          document.getElementById("windMessage").innerHTML = 'WIND SURVIVAL SPEED: ' + json.windSpeed + ' km/hr';
+          break
+        };
+    };
   </script>
 
 </body>

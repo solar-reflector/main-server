@@ -1,11 +1,13 @@
+const WebSocket = require('ws');
+
 const express = require('express');
 const path = require('path');
 const app = express();
-
-//SIO
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+const http = require('http');
+const server = http.createServer(app);
+const wss = new WebSocket.Server({server});
 var windSpeed = 0;
+var FRDM = null;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -17,15 +19,36 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/page1.html'));
 })
 
-//SIO
-io.on('connection', function(client) {
-    console.log('Client connected...');
+wss.on('connection', function connection(ws, req) {
+    console.log('Client connected');
 
-    client.on('clicked', function(data) {
-	     windSpeed++;
-	     //send a message to all connected clients
-	     io.emit('windUpdate', windSpeed);
-     });
+    ws.on('close', () => console.log('Client disconnected'));
+
+    ws.on('message', function incoming(data) {
+
+      var json = JSON.parse(data);
+
+      switch(json.topic){
+        case "FRDM":
+          FRDM = ws;
+          console.log("Entered ID...")
+          break;
+
+        case "settingsClicked":
+          windSpeed++;
+          wss.clients.forEach(function each(client) {
+            client.send('{"topic":"windUpdate", "windSpeed":' + windSpeed + '}');
+          });
+          break;
+
+        case "onOffClicked":
+          if(FRDM){
+            console.log("ON/OFF was clicked...")
+            FRDM.send('{"topic":"LED"}');
+          };
+          break;
+        };
+    });
 });
 
 const port = process.env.PORT || 8080;
