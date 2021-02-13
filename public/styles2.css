@@ -34,6 +34,7 @@ h5{
 }
 
 .dataBox {
+  position: fixed;
   display: block;
   margin: auto;
   text-align: center;
@@ -42,11 +43,36 @@ h5{
   background-image: linear-gradient(#58adc4, #1e6d82);
   border: 3px solid aqua;
   border-radius: 10px;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
 }
 
 .container {
-  display: flex;
-  justify-content: space-around;
+  position: fixed;
+  top: 90%;
+}
+
+.div1 {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 90%;
+  left: 10%;
+}
+
+.div2 {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 90%;
+  left: 50%;
+}
+
+.div3 {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 90%;
+  left: 90%;
 }
 
 .logoutButton {

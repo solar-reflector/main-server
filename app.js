@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -20,7 +19,7 @@ app.get('/login', (req, res) => {
 })
 
 wss.on('connection', function connection(ws, req) {
-    console.log('Client connected');
+    console.log('Client connected...');
 
     ws.on('close', () => console.log('Client disconnected'));
 
@@ -31,7 +30,7 @@ wss.on('connection', function connection(ws, req) {
       switch(json.topic){
         case "FRDM":
           FRDM = ws;
-          console.log("Entered ID...")
+          console.log("FRDM-K64F connected...")
           break;
 
         case "settingsClicked":
@@ -43,8 +42,7 @@ wss.on('connection', function connection(ws, req) {
 
         case "onOffClicked":
           if(FRDM){
-            console.log("ON/OFF was clicked...")
-            FRDM.send('{"topic":"LED"}');
+            FRDM.send('{"topic":"ON/OFF"}');
           };
           break;
         };
