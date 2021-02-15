@@ -19,9 +19,9 @@ app.get('/login', (req, res) => {
 })
 
 wss.on('connection', function connection(ws, req) {
-    console.log('Client connected...');
+    console.log('Client logged in...');
 
-    ws.on('close', () => console.log('Client disconnected'));
+    ws.on('close', () => console.log('Client logged out...'));
 
     ws.on('message', function incoming(data) {
 
@@ -51,5 +51,5 @@ wss.on('connection', function connection(ws, req) {
 
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Server listening at http://localhost:${port}`);
 })

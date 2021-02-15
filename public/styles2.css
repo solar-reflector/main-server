@@ -6,6 +6,10 @@ body {
 }
 
 h1 {
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 5%;
+  left: 50%;
   text-align: center;
   color: white;
   background-color: #043542;
@@ -47,11 +51,6 @@ h5{
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
-}
-
-.container {
-  position: fixed;
-  top: 90%;
 }
 
 .div1 {

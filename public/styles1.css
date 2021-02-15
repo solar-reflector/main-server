@@ -6,22 +6,33 @@ body {
 }
 
 h1 {
-	text-align: center;
-	color: white;
-	background-color: #043542;
-	border: 3px solid aqua;
-	border-radius: 15px;
-	padding: 10px;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 5%;
+  left: 50%;
+  text-align: center;
+  color: white;
+  background-color: #043542;
+  border: 3px solid aqua;
+  border-radius: 15px;
+  padding: 10px;
 }
 
 .loginBox {
-	margin: 0 auto;
-	text-align: center;
+  position: fixed;
+  display: block;
+  margin: auto;
+  text-align: center;
 	background-color: #23465c;
 	width: 190px;
 	height: 186px;
 	border: 3px solid aqua;
 	border-radius: 10px;
+  border-radius: 10px;
+  top: 40%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
 }
 
 .passwordField {
@@ -33,10 +44,13 @@ h1 {
 }
 
 .loginButton {
-	height: 30px;
-	width: 100px;
-	border-radius: 5px;
-	margin-top: 20px;
+  height: 30px;
+  width: 100px;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 20px;
+  background-color: #043542;
+  color: white;
 }
 
 .myLabels {
