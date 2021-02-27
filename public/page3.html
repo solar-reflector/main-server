@@ -1,24 +1,63 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <link rel="stylesheet" type="text/css" href="styles3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="styles3.css">
 </head>
+
 <body>
+    <nav>
+        <div class="nav-wrapper" style="background-color: #185464;">
+            <a href="#" class="brand-logo center">Solar Reflector</a>
+        </div>
 
-  <h2>INTELLIGENT SOLAR REFLECTOR</h2>
+        <div class="container">
+            <div class="card-panel row">
+                <div class="col s8">
+                    <h6 id="location">Fredericton, NB</h6>
+                    <h6 id="windSpeed">Wind Speed: 22 km/h</h6>
+                    <h6 id="snowfall">Next Snowfall: Tuesday</h6>
+                    <h6 id="sunrise">Sunrise: 6:45 AM</h6>
+                    <h6 id="sunset">Sunset: 7:35 PM</h6>
+                </div>
+                <img class="col s4" src="http://openweathermap.org/img/wn/02d@2x.png" />
+                <h6 class="center-align" style="font-size: 16px;">20&#176C</h6>
+            </div>
 
-  <div class="consoleBackground">
-    <div class="weatherBox">Weather box</div>
-    <div class="stateBox">State box</div>
-    <div class="windBox">Wind box</div>
-    <div class="trackingBox">Tracking box</div>
-    <div class="testBox">Test box</div>
-  </div>
+            <div id="state" class="card-panel center-align">State: Normal Operation</div>
 
-  <div class="buttonCenter">
-    <button id="logout" class="buttonBox" style="margin-right:110px">LOGOUT</button>
-    <button id="power" class="buttonBox" style="margin-left:110px">POWER</button>
-  </div>
+            <div class="card-panel row">
+                <div class="col s2">
+                    <button id="decrease" class="waves-effect waves-light">-</button>
+                </div>
+                <div id="survivalSpeed" class="col s8 center-align">Survival Speed: 65 km/h</div>
+                <div class="col s2">
+                    <button id="increase" class="waves-effect waves-light">+</button>
+                </div>
+            </div>
 
+            <div class="card-panel center-align">
+                <a style="margin-right: 10px;">Tracking Mode:</a>
+                <button id="tracking" style="width: 120px;">Active</button>
+            </div>
+
+            <div class="card-panel center-align">
+                <a style="margin-right: 10px;">Capacity Level:</a>
+                <button id="capacity" style="width: 120px;">95% Power</button>
+            </div>
+
+            <div class="row" style="margin-bottom: 0px;">
+                <div class="col s6 left-align">
+                    <button id="logout" style="width: 120px;">Logout</button>
+                </div>
+                <div class="col s6 right-align">
+                    <button  id="power" style="width: 120px;">On/Off</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 </body>
+
 </html>
