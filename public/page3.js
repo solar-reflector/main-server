@@ -49,12 +49,20 @@ function startWebsocket() {
 
     ws.onmessage = (event) => {
         var json = JSON.parse(event.data);
-        console.log(json)
-        document.getElementById("temp").innerHTML = json.temp;
-        document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + json.snowDay;
-        document.getElementById("sunrise").innerHTML = 'Sunrise: ' + json.sunrise;
-        document.getElementById("sunset").innerHTML = 'Sunset: ' + json.sunset;
-        document.getElementById("icon").src = json.imgUrl;
+        switch (json.topic) {
+            case 'weatherData':
+                document.getElementById("temp").innerHTML = json.temp;
+                document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + json.snowDay;
+                document.getElementById("sunrise").innerHTML = 'Sunrise: ' + json.sunrise;
+                document.getElementById("sunset").innerHTML = 'Sunset: ' + json.sunset;
+                document.getElementById("icon").src = json.imgUrl;
+                break;
+            case 'survivalSpeed':
+                survivalSpeed = json.value;
+                survivalSpeedText.innerHTML = `Survival Speed: ${survivalSpeed} km/h`
+                break;
+
+        }
     }
 }
 startWebsocket()

@@ -20,6 +20,7 @@ app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
   weatherData.survivalSpeed = survivalSpeed;
+  weatherData.windSpeed = '20 km/h'
   res.render('page3', weatherData);
   // res.sendFile(path.join(__dirname + '/public/page3.html'));
 })
@@ -62,7 +63,9 @@ wss.on('connection', function connection(ws, req) {
         break;
       case 'survivalSpeed':
         survivalSpeed = json.value;
-        console.log('Survival Speed:',survivalSpeed);
+        wss.clients.forEach(function each(client) {
+          client.send(JSON.stringify({topic: 'survivalSpeed', value: survivalSpeed}));
+        });
         break;
     };
   });
@@ -72,6 +75,7 @@ wss.on('connection', function connection(ws, req) {
 // WeatherData function
 async function weatherOutput() {
   weatherData = await weatherData2.getWeather2();
+  weatherData.topic = 'weatherData';
   var weatherReport = JSON.stringify(weatherData);
 
   // send weatherReport
