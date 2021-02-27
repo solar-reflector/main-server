@@ -25,12 +25,6 @@ h6 {
   background-color: #4c94a8;
 }
 
-.btn {
-  height: 38px;
-  background-color: #185464;
-  border-radius: 5px;
-}
-
 button {
   height: 38px;
   width: 38px;
@@ -38,8 +32,6 @@ button {
   color: white;
   border-radius: 5px;
   border: none;
-  padding: 0px;
-  margin: 0px;
 }
 
 button:hover{
