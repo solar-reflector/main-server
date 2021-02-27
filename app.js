@@ -85,6 +85,8 @@ async function weatherOutput() {
 }
 weatherOutput()
 
+// setInterval(weatherOutput(), 60000)
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Console
