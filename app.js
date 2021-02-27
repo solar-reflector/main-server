@@ -6,7 +6,7 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
-const weatherData = require('./weatherData');
+const weatherData2 = require('./weatherData2');
 var windSpeed = 0;
 var FRDM = null;
 
@@ -26,6 +26,9 @@ app.get('/login', (req, res) => {
 // Websocket functions
 wss.on('connection', function connection(ws, req) {
     console.log('Client logged in...');
+
+    // Called on connection
+    weatherOutput();
 
     ws.on('close', () => console.log('Client logged out...'));
 
@@ -56,12 +59,19 @@ wss.on('connection', function connection(ws, req) {
 });
 
 //////////////////////////////////////////////////////////////////////////////
-// Call weatherData
-console.log(weatherData.getWeather());
+// WeatherData function
+async function weatherOutput() {
+  var weatherReport = JSON.stringify(await weatherData2.getWeather2());
+
+  // send weatherReport
+  wss.clients.forEach(function each(client) {
+    client.send(weatherReport);
+  });
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // Console
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at http://localhost:${port}`);
 })

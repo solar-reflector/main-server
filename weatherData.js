@@ -1,6 +1,7 @@
 const http = require('http');
 
 function getWeather() {
+var result = "a";
 
   var options = {
     host: 'api.openweathermap.org',
@@ -8,7 +9,6 @@ function getWeather() {
   };
 
   callback = function(response) {
-
     var weatherData = '';
 
     response.on('data', function (chunk) {
@@ -32,7 +32,7 @@ function getWeather() {
 
       // Get temp
       temp = (json.current.temp).toFixed(1) + "\u00B0C";
-      console.log("Temperature: " + temp);
+      //console.log("Temperature: " + temp);
 
       // Get sunrise/sunset
       sunrise = new Date(json.current.sunrise * 1000);
@@ -43,23 +43,30 @@ function getWeather() {
       hours = sunset.getHours() - 12;
       minutes = "0" + sunset.getMinutes();
       sunset = hours + ":" + minutes.substr(-2) + " PM";
-      console.log("Sunrise: " + sunrise);
-      console.log("Sunset: " + sunset);
+      //console.log("Sunrise: " + sunrise);
+      //console.log("Sunset: " + sunset);
 
       // Get next snow day
       json.daily.forEach(day => {
         if(day.weather[0].main == "Snow" && flag) {
           snowDay = new Date(day.dt*1000)
           snowDay = snowDay.toLocaleString("en-US",{weekday:"long"})
-          console.log("Next snow day: " + snowDay);
+          //console.log("Next snow day: " + snowDay);
           flag = false;
         }
       })
+
+      result = {imgUrl:imgUrl, temp:temp, sunrise:sunrise, sunset:sunset, snowDay:snowDay};
+      //console.log(result);
+
     })
   }
 
   http.request(options, callback).end(); // End of weather request
 
+  while(result == "a"){}
+  return result;
+
 }
-return {imgUrl:imgUrl, temp:temp, sunrise:sunrise, sunset:sunset, snowDay:snowDay}
+
 module.exports = {getWeather};

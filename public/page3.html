@@ -8,7 +8,9 @@
   <h2>INTELLIGENT SOLAR REFLECTOR</h2>
 
   <div class="consoleBackground">
-    <div class="weatherBox">Weather box</div>
+    <div class="weatherBox">
+      <h5 id="temp" style="color:white;">Temperature:</h5>
+    </div>
     <div class="stateBox">State box</div>
     <div class="windBox">Wind box</div>
     <div class="trackingBox">Tracking box</div>
@@ -19,6 +21,17 @@
     <button id="logout" class="buttonBox" style="margin-right:110px">LOGOUT</button>
     <button id="power" class="buttonBox" style="margin-left:110px">POWER</button>
   </div>
+
+  <script>
+    var host = location.origin.replace(/^http/,'ws');
+    var ws = new WebSocket(host);
+
+    ws.onmessage = function(event) {
+      var json = JSON.parse(event.data);
+      console.log(json);
+      document.getElementById("temp").innerHTML = 'Temperature: ' + json.temp;
+    }
+  </script>
 
 </body>
 </html>
