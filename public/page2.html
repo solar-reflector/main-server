@@ -4,13 +4,18 @@
   <link rel="stylesheet" type="text/css" href="styles2.css">
 </head>
 <body>
-  <h1>INTELLIGENT SOLAR REFLECTOR</h1>
+  <h2>INTELLIGENT SOLAR REFLECTOR</h2>
 
   <!--
   <div class="graphBox">
       <canvas id="myChart" style="width:90%;height:90%"></canvas>
   </div><br>
 -->
+
+  <div class="divState">
+    <h5>STATE: Normal Operation</h5>
+  </div>
+
   <div class="dataBox">
     <h5 style="color:white;">STATE: Normal Opertion</h5>
     <h5 style="color:white;">WIND SPEED: 22 km/hr</h5>
@@ -23,13 +28,13 @@
     <button id="logout" class="logoutButton">LOG OUT</button>
   </div>
 
-    <div class="div2">
-      <button onclick="settingsClicked()" class="settingsButton">SETTINGS</button>
-    </div>
+  <div class="div2">
+    <button onclick="settingsClicked()" class="settingsButton">SETTINGS</button>
+  </div>
 
-    <div class="div3">
-      <button onclick="onOffClicked()"class="powerButton">ON/OFF</button>
-    </div>
+  <div class="div3">
+    <button onclick="onOffClicked()"class="powerButton">ON/OFF</button>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="chart.js"></script>

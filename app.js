@@ -11,7 +11,7 @@ var FRDM = null;
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/public/page2.html'));
+    res.sendFile(path.join(__dirname + '/public/page3.html'));
 })
 
 app.get('/login', (req, res) => {
@@ -48,6 +48,29 @@ wss.on('connection', function connection(ws, req) {
         };
     });
 });
+
+// Weather request
+var options = {
+  host: 'api.openweathermap.org',
+  path: '/data/2.5/onecall?lat=45.964993&lon=-66.646332&exclude=minutely,hourly,alerts&units=metric&appid=b8ae12dff762333b98e1972f5ca1fc82'
+};
+
+callback = function(response) {
+  var weatherData = '';
+
+  //another chunk of data has been received, so append it to `str`
+  response.on('data', function (chunk) {
+    weatherData += chunk;
+  });
+
+  //the whole response has been received, so we just print it out here
+  response.on('end', function () {
+    console.log(weatherData);
+  });
+}
+
+http.request(options, callback).end(); // End of weather request
+
 
 const port = process.env.PORT || 8080;
 server.listen(port, () => {

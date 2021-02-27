@@ -1,0 +1,109 @@
+body {
+  font-family: Verdana, sans-serif;
+  color: white;
+  font-weight: bold;
+  background-image: linear-gradient(#4c94a8, #13424f);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+h2 {
+  margin: auto;
+  width: 450px;
+  padding: 5px;
+  border: 3px solid aqua;
+  border-radius: 15px;
+  background-color: #043542;
+  text-align: center;
+}
+
+.consoleBackground {
+  margin: auto;
+  width: 400px;
+  height: 650px;
+  background-color: aqua;
+  border-radius:15px;
+  margin-top: 20px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+.weatherBox {
+  margin: auto;
+  width: 380px;
+  height: 300px;
+  background-color: #4c94a8;
+  border-radius:15px;
+  text-align: center;
+}
+
+.stateBox {
+  margin: auto;
+  width: 380px;
+  height: 50px;
+  background-color: #4c94a8;
+  border-radius:15px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.windBox {
+  margin: auto;
+  width: 380px;
+  height: 100px;
+  background-color: #4c94a8;
+  border-radius:15px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.trackingBox {
+  margin: auto;
+  width: 380px;
+  height: 75px;
+  background-color: #4c94a8;
+  border-radius:15px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.testBox {
+  margin: auto;
+  width: 380px;
+  height: 75px;
+  background-color: #4c94a8;
+  border-radius:15px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.logoutBox {
+  margin: auto;
+  margin-top: 20px;
+  height: 30px;
+  width: 90px;
+  background-color: #4c94a8;
+  border: 3px solid aqua;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Verdana, sans-serif;
+  color: white;
+  font-weight: bold;
+}
+
+.buttonCenter {
+  text-align: center;
+}
+
+.buttonBox {
+  margin-top: 20px;
+  height: 30px;
+  width: 90px;
+  background-color: #4c94a8;
+  border: 3px solid aqua;
+  border-radius: 10px;
+  text-align: center;
+  font-family: Verdana, sans-serif;
+  color: white;
+  font-weight: bold;
+}
