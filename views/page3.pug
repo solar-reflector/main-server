@@ -1,0 +1,37 @@
+doctype html
+head
+  meta(name='viewport' content='width=device-width, initial-scale=0.8')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
+  link(rel='stylesheet' type='text/css' href='styles3.css')
+nav
+  .nav-wrapper(style='background-color: #185464;')
+    a.brand-logo.center(href='#' style='font-weight: bold; font-size: 20px;') SOLAR REFLECTOR
+  .container
+    .card-panel.row
+      .col.s8
+        h6#location Fredericton, NB
+        h6#windSpeed Wind Speed: #{windSpeed}
+        h6#snowfall Next Snowfall: #{snowDay}
+        h6#sunrise Sunrise: #{sunrise}
+        h6#sunset Sunset: #{sunset}
+      img#icon.col.s4(src=imgUrl)
+      h6#temp.center-align(style='font-size: 16px;') #{temp}
+    #state.card-panel.center-align State: Normal Operation
+    .card-panel.row
+      .col.s2
+        button#decrease.waves-effect.waves-light(style='font-weight: bold;') -
+      #survivalSpeed.col.s8.center-align Survival Speed: #{survivalSpeed} km/h
+      .col.s2
+        button#increase.waves-effect.waves-light(style='font-weight: bold;') +
+    .card-panel.center-align
+      a(style='margin-right: 10px;') Tracking Mode:
+      button#tracking(style='width: 120px;') Active
+    .card-panel.center-align
+      a(style='margin-right: 10px;') Capacity Level:
+      button#capacity(style='width: 120px;') 95% Power
+    .row(style='margin-bottom: 0px;')
+      .col.s6.left-align
+        button#logout(style='width: 120px;') Logout
+      .col.s6.right-align
+        button#power(style='width: 120px;') On/Off
+script(src='page3.js')

@@ -11,13 +11,17 @@ const weatherData2 = require('./weatherData2');
 var windSpeed = 0;
 var survivalSpeed = 65;
 var FRDM = null;
+var weatherData;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname + '/public/page3.html'));
+  weatherData.survivalSpeed = survivalSpeed;
+  res.render('page3', weatherData);
+  // res.sendFile(path.join(__dirname + '/public/page3.html'));
 })
 
 app.get('/login', (req, res) => {
@@ -67,13 +71,15 @@ wss.on('connection', function connection(ws, req) {
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
 async function weatherOutput() {
-  var weatherReport = JSON.stringify(await weatherData2.getWeather2());
+  weatherData = await weatherData2.getWeather2();
+  var weatherReport = JSON.stringify(weatherData);
 
   // send weatherReport
   wss.clients.forEach(function each(client) {
     client.send(weatherReport);
   });
 }
+weatherOutput()
 
 
 ///////////////////////////////////////////////////////////////////////////////
