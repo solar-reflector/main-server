@@ -11,7 +11,7 @@ async function getWeather2() {
     const json = response.data;
 
     // Get picture
-    var imgUrl = "openweathermap.org/img/wn/" + json.current.weather[0].icon + "@2x.png";
+    var imgUrl = "https://openweathermap.org/img/wn/" + json.current.weather[0].icon + "@2x.png";
 
     // Get temp
     var temp = (json.current.temp).toFixed(1) + "\u00B0C";
