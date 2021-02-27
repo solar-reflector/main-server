@@ -28,6 +28,8 @@
 
             <div id="state" class="card-panel center-align">State: Normal Operation</div>
 
+
+
             <div class="card-panel row">
                 <div class="col s2">
                     <button id="decrease" class="waves-effect waves-light">-</button>
@@ -38,10 +40,24 @@
                 </div>
             </div>
 
+
             <div class="card-panel center-align">
                 <a style="margin-right: 10px;">Tracking Mode:</a>
                 <button id="tracking" style="width: 120px;">Active</button>
             </div>
+
+
+  <script>
+    var host = location.origin.replace(/^http/,'ws');
+    var ws = new WebSocket(host);
+
+    ws.onmessage = function(event) {
+      var json = JSON.parse(event.data);
+      console.log(json);
+      document.getElementById("temp").innerHTML = 'Temperature: ' + json.temp;
+    }
+  </script>
+
 
             <div class="card-panel center-align">
                 <a style="margin-right: 10px;">Capacity Level:</a>
@@ -58,6 +74,7 @@
             </div>
         </div>
     </nav>
+
     <script src="page3.js"></script>
 </body>
 
