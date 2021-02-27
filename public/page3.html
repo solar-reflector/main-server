@@ -10,7 +10,7 @@
 <body>
     <nav>
         <div class="nav-wrapper" style="background-color: #185464;">
-            <a href="#" class="brand-logo center">Solar Reflector</a>
+            <a href="#" class="brand-logo center" style="font-weight: bold; font-size: 25px;">SOLAR REFLECTOR</a>
         </div>
 
         <div class="container">
@@ -18,12 +18,12 @@
                 <div class="col s8">
                     <h6 id="location">Fredericton, NB</h6>
                     <h6 id="windSpeed">Wind Speed: 22 km/h</h6>
-                    <h6 id="snowfall">Next Snowfall: Tuesday</h6>
-                    <h6 id="sunrise">Sunrise: 6:45 AM</h6>
-                    <h6 id="sunset">Sunset: 7:35 PM</h6>
+                    <h6 id="snowfall">Next Snowfall:</h6>
+                    <h6 id="sunrise">Sunrise:</h6>
+                    <h6 id="sunset">Sunset:</h6>
                 </div>
                 <img class="col s4" src="http://openweathermap.org/img/wn/02d@2x.png" />
-                <h6 class="center-align" style="font-size: 16px;">20&#176C</h6>
+                <h6 id="temp" class="center-align" style="font-size: 16px;"></h6>
             </div>
 
             <div id="state" class="card-panel center-align">State: Normal Operation</div>
@@ -45,19 +45,6 @@
                 <a style="margin-right: 10px;">Tracking Mode:</a>
                 <button id="tracking" style="width: 120px;">Active</button>
             </div>
-
-
-  <script>
-    var host = location.origin.replace(/^http/,'ws');
-    var ws = new WebSocket(host);
-
-    ws.onmessage = function(event) {
-      var json = JSON.parse(event.data);
-      console.log(json);
-      document.getElementById("temp").innerHTML = 'Temperature: ' + json.temp;
-    }
-  </script>
-
 
             <div class="card-panel center-align">
                 <a style="margin-right: 10px;">Capacity Level:</a>

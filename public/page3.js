@@ -11,7 +11,7 @@ var survivalSpeed = 65
 
 function updateSurvivalSpeed() {
     survivalSpeedText.innerHTML = `Survival Speed: ${survivalSpeed} km/h`
-    ws.send(JSON.stringify({topic: 'survivalSpeed', value: survivalSpeed}))
+    ws.send(JSON.stringify({ topic: 'survivalSpeed', value: survivalSpeed }))
 }
 
 increase.addEventListener('click', event => {
@@ -48,7 +48,11 @@ function startWebsocket() {
     }
 
     ws.onmessage = (event) => {
-        console.log(event.data);
+        var json = JSON.parse(event.data);
+        document.getElementById("temp").innerHTML = json.temp;
+        document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + json.snowDay;
+        document.getElementById("sunrise").innerHTML = 'Sunrise: ' + json.sunrise;
+        document.getElementById("sunset").innerHTML = 'Sunset: ' + json.sunset;
     }
 }
 startWebsocket()
