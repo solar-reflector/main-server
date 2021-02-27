@@ -77,20 +77,6 @@ h2 {
   margin-top: 10px;
 }
 
-.logoutBox {
-  margin: auto;
-  margin-top: 20px;
-  height: 30px;
-  width: 90px;
-  background-color: #4c94a8;
-  border: 3px solid aqua;
-  border-radius: 10px;
-  text-align: center;
-  font-family: Verdana, sans-serif;
-  color: white;
-  font-weight: bold;
-}
-
 .buttonCenter {
   text-align: center;
 }

@@ -1,3 +1,4 @@
+// Initialize
 const WebSocket = require('ws');
 const express = require('express');
 const path = require('path');
@@ -5,9 +6,12 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
+const weatherData = require('./weatherData');
 var windSpeed = 0;
 var FRDM = null;
 
+///////////////////////////////////////////////////////////////////////////////
+// Directories
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
@@ -18,6 +22,8 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname + '/public/page1.html'));
 })
 
+///////////////////////////////////////////////////////////////////////////////
+// Websocket functions
 wss.on('connection', function connection(ws, req) {
     console.log('Client logged in...');
 
@@ -49,6 +55,12 @@ wss.on('connection', function connection(ws, req) {
     });
 });
 
+//////////////////////////////////////////////////////////////////////////////
+// Call weatherData
+console.log(weatherData.getWeather());
+
+///////////////////////////////////////////////////////////////////////////////
+// Console
 const port = process.env.PORT || 8080;
 server.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
