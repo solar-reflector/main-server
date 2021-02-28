@@ -22,7 +22,6 @@ app.get('/', (req, res) => {
   weatherData.survivalSpeed = survivalSpeed;
   weatherData.windSpeed = '20 km/h'
   res.render('page2', weatherData);
-  // res.sendFile(path.join(__dirname + '/public/page3.html'));
 })
 
 app.get('/login', (req, res) => {
@@ -61,6 +60,7 @@ wss.on('connection', function connection(ws, req) {
           FRDM.send('{"topic":"ON/OFF"}');
         };
         break;
+        
       case 'survivalSpeed':
         survivalSpeed = json.value;
         wss.clients.forEach(function each(client) {
