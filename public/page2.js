@@ -6,8 +6,30 @@ var logout = document.querySelector('#logout')
 var power = document.querySelector('#power')
 var state = document.querySelector('#state')
 
+var firebaseConfig = {
+    apiKey: "AIzaSyBoxx31JxnOUq5Yes5vGaCNfiYjMjHHVFs",
+    authDomain: "solar-reflector-6320d.firebaseapp.com",
+    projectId: "solar-reflector-6320d"
+};
 var ws
 var survivalSpeed = 65
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+auth.onAuthStateChanged(user => {
+    if (user) {
+        console.log('user logged in');
+    } else {
+        console.log('user logged out');
+        window.location.href = "/login"
+    }
+});
+
+logout.addEventListener('click', (event) => {
+    auth.signOut();
+});
 
 function updateSurvivalSpeed() {
     survivalSpeedText.innerHTML = `Survival Speed: ${survivalSpeed} km/h`
@@ -56,12 +78,12 @@ function startWebsocket() {
                 document.getElementById("sunrise").innerHTML = 'Sunrise: ' + json.sunrise;
                 document.getElementById("sunset").innerHTML = 'Sunset: ' + json.sunset;
                 document.getElementById("icon").src = json.imgUrl;
+                survivalSpeed = json.survivalSpeed
                 break;
             case 'survivalSpeed':
                 survivalSpeed = json.value;
                 survivalSpeedText.innerHTML = `Survival Speed: ${survivalSpeed} km/h`
                 break;
-
         }
     }
 }

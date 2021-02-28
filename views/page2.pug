@@ -2,7 +2,7 @@ doctype html
 head
   meta(name='viewport' content='width=device-width, initial-scale=0.8, user-scalable=0')
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
-  link(rel='stylesheet' type='text/css' href='styles3.css')
+  link(rel='stylesheet' type='text/css' href='page2.css')
 nav
   .nav-wrapper(style='background-color: #185464;')
     a.brand-logo.center(href='#' style='font-weight: bold; font-size: 20px;') SOLAR REFLECTOR
@@ -34,4 +34,6 @@ nav
         button#logout(style='width: 120px;') Logout
       .col.s6.right-align
         button#power(style='width: 120px;') On/Off
-script(src='page3.js')
+script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
+script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
+script(src='page2.js')

@@ -21,7 +21,7 @@ app.set('view engine', 'pug')
 app.get('/', (req, res) => {
   weatherData.survivalSpeed = survivalSpeed;
   weatherData.windSpeed = '20 km/h'
-  res.render('page3', weatherData);
+  res.render('page2', weatherData);
   // res.sendFile(path.join(__dirname + '/public/page3.html'));
 })
 
@@ -76,6 +76,7 @@ wss.on('connection', function connection(ws, req) {
 async function weatherOutput() {
   weatherData = await weatherData2.getWeather2();
   weatherData.topic = 'weatherData';
+  weatherData.survivalSpeed = survivalSpeed;
   var weatherReport = JSON.stringify(weatherData);
 
   // send weatherReport
