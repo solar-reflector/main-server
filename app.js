@@ -63,8 +63,11 @@ wss.on('connection', function connection(ws, req) {
         break;
 
       case 'survivalSpeed':
-        // survivalSpeed = json.value;
-        json.value == 'increase' ? survivalSpeed++ : survivalSpeed--
+        if (json.value == 'increase' & survivalSpeed < 75) {
+          survivalSpeed++
+        } else if (json.value == 'decrease' & survivalSpeed > 10) {
+          survivalSpeed--
+        }
         wss.clients.forEach(function each(client) {
           client.send(JSON.stringify({ survivalSpeed: survivalSpeed }));
         });
@@ -76,12 +79,7 @@ wss.on('connection', function connection(ws, req) {
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
 async function weatherOutput() {
-  // weatherData = await weatherData2.getWeather2();
-  // weatherData.topic = 'weatherData';
-  // weatherData.survivalSpeed = survivalSpeed;
-  // var weatherReport = JSON.stringify(weatherData);
-
-  weatherData = await weatherData2.getWeather2();
+ weatherData = await weatherData2.getWeather2();
   var weatherReport = JSON.stringify({ weatherData: weatherData });
 
   // send weatherReport
