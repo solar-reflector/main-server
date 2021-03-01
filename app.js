@@ -13,7 +13,8 @@ var windSpeed = 0;
 var survivalSpeed = 65;
 var FRDM = null;
 var weatherData;
-var state = true;
+var powerOn = true;
+var activeTracking = true;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
@@ -23,7 +24,8 @@ app.set('view engine', 'pug')
 app.get('/', (req, res) => {
   weatherData.survivalSpeed = survivalSpeed;
   weatherData.windSpeed = '20 km/h'
-  weatherData.state = state ? 'Turn Off' : 'Turn On'
+  weatherData.state = powerOn ? 'Turn Off' : 'Turn On'
+  weatherData.tracking = activeTracking ? 'Active' : 'Auto'
   res.render('page2', weatherData);
 })
 
@@ -58,13 +60,13 @@ wss.on('connection', function connection(ws, req) {
         break;
 
       case "onOffClicked":
-        state = !state;
+        powerOn = !powerOn;
         if (FRDM) {
           FRDM.send('{"topic":"ON/OFF"}');
         };
         wss.clients.forEach(function each(client) {
           if (client != FRDM) {
-            client.send(JSON.stringify({ state: state }));
+            client.send(JSON.stringify({ powerOn: powerOn }));
           }
         });
         break;
@@ -78,6 +80,15 @@ wss.on('connection', function connection(ws, req) {
         wss.clients.forEach(function each(client) {
           if (client != FRDM) {
             client.send(JSON.stringify({ survivalSpeed: survivalSpeed }));
+          }
+        });
+        break;
+
+      case 'trackingMode':
+        activeTracking = !activeTracking
+        wss.clients.forEach(function each(client) {
+          if (client != FRDM) {
+            client.send(JSON.stringify({ activeTracking: activeTracking }));
           }
         });
         break;

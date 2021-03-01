@@ -35,7 +35,7 @@ decrease.addEventListener('click', event => {
 
 var tracking = document.querySelector('#tracking')
 tracking.addEventListener('click', event => {
-    console.log('Tracking mode clicked')
+    ws.send(JSON.stringify({ topic: 'trackingMode' }))
 })
 
 var power = document.querySelector('#power')
@@ -70,8 +70,12 @@ function startWebsocket() {
             document.getElementById('survivalSpeed').innerHTML = `Survival Speed: ${json.survivalSpeed} km/h`
         }
 
-        if (json.hasOwnProperty('state')) {
-            power.innerHTML = json.state ? 'Turn Off' : 'Turn On'
+        if (json.hasOwnProperty('powerOn')) {
+            power.innerHTML = json.powerOn ? 'Turn Off' : 'Turn On'
+        }
+
+        if (json.hasOwnProperty('activeTracking')) {
+            tracking.innerHTML = json.activeTracking ? 'Active' : 'Auto'
         }
     }
 }
