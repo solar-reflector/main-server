@@ -11,7 +11,6 @@ const wss = new WebSocket.Server({ server });
 
 var FRDM = null;
 var weatherData;
-var windSpeed = 0;
 var survivalSpeed = 65;
 var powerOn = true;
 var activeTracking = true;
@@ -37,11 +36,12 @@ app.get('/login', (req, res) => {
 ///////////////////////////////////////////////////////////////////////////////
 // Websocket functions
 wss.on('connection', function connection(ws, req) {
-  console.log('Client logged in...');
 
   // Called on connection
   weatherOutput();
-  ws.on('close', () => console.log('Client logged out...'));
+  console.log('Client Connected.');
+
+  ws.on('close', () => console.log('Client Disconnected.'));
 
   ws.on('message', function incoming(data) {
 
@@ -50,14 +50,7 @@ wss.on('connection', function connection(ws, req) {
     switch (json.topic) {
       case "FRDM":
         FRDM = ws;
-        console.log("FRDM-K64F connected...")
-        break;
-
-      case "settingsClicked":
-        windSpeed++;
-        wss.clients.forEach(function each(client) {
-          client.send('{"topic":"windUpdate", "windSpeed":' + windSpeed + '}');
-        });
+        console.log("FRDM-K64F connected.")
         break;
 
       case "onOffClicked":
@@ -65,37 +58,36 @@ wss.on('connection', function connection(ws, req) {
         if (FRDM) {
           FRDM.send('{"topic":"ON/OFF"}');
         };
-        wss.clients.forEach(function each(client) {
-          if (client != FRDM) {
-            client.send(JSON.stringify({ powerOn: powerOn }));
-          }
-        });
+        broadcast(JSON.stringify({ powerOn: powerOn }))
         break;
 
       case 'survivalSpeed':
-        if (json.value == 'increase' & survivalSpeed < 75) {
+        if (json.value == 'increase' & survivalSpeed < 80) {
           survivalSpeed++
         } else if (json.value == 'decrease' & survivalSpeed > 10) {
           survivalSpeed--
         }
-        wss.clients.forEach(function each(client) {
-          if (client != FRDM) {
-            client.send(JSON.stringify({ survivalSpeed: survivalSpeed }));
-          }
-        });
+        broadcast(JSON.stringify({ survivalSpeed: survivalSpeed }))
         break;
 
       case 'trackingMode':
         activeTracking = !activeTracking
-        wss.clients.forEach(function each(client) {
-          if (client != FRDM) {
-            client.send(JSON.stringify({ activeTracking: activeTracking }));
-          }
-        });
+        broadcast(JSON.stringify({ activeTracking: activeTracking }))
         break;
     };
   });
 });
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Broadcast WebSocket message to all clients (Except FRDM)
+function broadcast(message) {
+  wss.clients.forEach(function each(client) {
+    if (client != FRDM) {
+      client.send(message);
+    }
+  });
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
@@ -103,11 +95,7 @@ async function weatherOutput() {
   weatherData = await weatherData2.getWeather2();
 
   // send weatherReport
-  wss.clients.forEach(function each(client) {
-    if (client != FRDM) {
-      client.send(JSON.stringify({ weatherData: weatherData }));
-    }
-  });
+  broadcast(JSON.stringify({ weatherData: weatherData }))
 }
 weatherOutput()
 setInterval(() => { weatherOutput() }, 60000)
