@@ -7,7 +7,7 @@ var firebaseConfig = {
 
 var logout = document.querySelector('#logout')
 logout.addEventListener('click', (event) => {
-    auth.signOut();
+    firebase.auth().signOut();
 });
 
 var increase = document.querySelector('#increase')
