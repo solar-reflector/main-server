@@ -40,7 +40,7 @@ tracking.addEventListener('click', event => {
 
 var power = document.querySelector('#power')
 power.addEventListener('click', event => {
-    console.log('Power clicked')
+    ws.send(JSON.stringify({ topic: 'onOffClicked' }))
 })
 
 function startWebsocket() {
@@ -57,7 +57,7 @@ function startWebsocket() {
     ws.onmessage = (event) => {
         var json = JSON.parse(event.data);
         console.log(json)
-        if (json.weatherData) {
+        if (json.hasOwnProperty('weatherData')) {
             let { temp, snowDay, sunrise, sunset, imgUrl } = json.weatherData;
             document.getElementById("temp").innerHTML = temp;
             document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + snowDay;
@@ -66,8 +66,12 @@ function startWebsocket() {
             document.getElementById("icon").src = imgUrl;
         }
 
-        if (json.survivalSpeed) {
+        if (json.hasOwnProperty('survivalSpeed')) {
             document.getElementById('survivalSpeed').innerHTML = `Survival Speed: ${json.survivalSpeed} km/h`
+        }
+
+        if (json.hasOwnProperty('state')) {
+            power.innerHTML = json.state ? 'Turn Off' : 'Turn On'
         }
     }
 }

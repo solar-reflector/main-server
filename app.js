@@ -13,6 +13,7 @@ var windSpeed = 0;
 var survivalSpeed = 65;
 var FRDM = null;
 var weatherData;
+var state = true;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
@@ -22,6 +23,7 @@ app.set('view engine', 'pug')
 app.get('/', (req, res) => {
   weatherData.survivalSpeed = survivalSpeed;
   weatherData.windSpeed = '20 km/h'
+  weatherData.state = state ? 'Turn Off' : 'Turn On'
   res.render('page2', weatherData);
 })
 
@@ -56,9 +58,15 @@ wss.on('connection', function connection(ws, req) {
         break;
 
       case "onOffClicked":
+        state = !state;
         if (FRDM) {
           FRDM.send('{"topic":"ON/OFF"}');
         };
+        wss.clients.forEach(function each(client) {
+          if (client != FRDM) {
+            client.send(JSON.stringify({ state: state }));
+          }
+        });
         break;
 
       case 'survivalSpeed':
