@@ -3,12 +3,12 @@ var firebaseConfig = {
     apiKey: "AIzaSyBoxx31JxnOUq5Yes5vGaCNfiYjMjHHVFs",
     authDomain: "solar-reflector-6320d.firebaseapp.com",
     projectId: "solar-reflector-6320d"
-};
+}
 
 var logout = document.querySelector('#logout')
 logout.addEventListener('click', event => {
-    firebase.auth().signOut();
-});
+    firebase.auth().signOut()
+})
 
 var increase = document.querySelector('#increase')
 increase.addEventListener('click', event => {
@@ -31,27 +31,28 @@ power.addEventListener('click', event => {
 })
 
 function startWebsocket() {
-    ws = new WebSocket(location.origin.replace(/^http/, 'ws'));
+    ws = new WebSocket(location.origin.replace(/^http/, 'ws'))
+
     ws.onopen = () => {
-        console.log("Websocket started");
+        console.log("Websocket started")
     }
 
     ws.onclose = () => {
-        console.log("Websocket closed");
-        setTimeout(() => { startWebsocket() }, 15000);
+        console.log("Websocket closed")
+        setTimeout(() => { startWebsocket() }, 15000)
     }
 
     ws.onmessage = event => {
-        var json = JSON.parse(event.data);
+        var json = JSON.parse(event.data)
         console.log(json)
 
         if (json.hasOwnProperty('weatherData')) {
-            let { temp, snowDay, sunrise, sunset, imgUrl } = json.weatherData;
-            document.getElementById("temp").innerHTML = temp;
-            document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + snowDay;
-            document.getElementById("sunrise").innerHTML = 'Sunrise: ' + sunrise;
-            document.getElementById("sunset").innerHTML = 'Sunset: ' + sunset;
-            document.getElementById("icon").src = imgUrl;
+            let { temp, snowDay, sunrise, sunset, imgUrl } = json.weatherData
+            document.getElementById("temp").innerHTML = temp
+            document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + snowDay
+            document.getElementById("sunrise").innerHTML = 'Sunrise: ' + sunrise
+            document.getElementById("sunset").innerHTML = 'Sunset: ' + sunset
+            document.getElementById("icon").src = imgUrl
         }
 
         if (json.hasOwnProperty('survivalSpeed')) {
@@ -65,7 +66,7 @@ function startWebsocket() {
         if (json.hasOwnProperty('activeTracking')) {
             tracking.innerHTML = json.activeTracking ? 'Active' : 'Auto'
         }
-        
+
         if (json.hasOwnProperty('state')) {
             document.getElementById("state").innerHTML = 'State: ' + json.state
         }
@@ -73,13 +74,13 @@ function startWebsocket() {
 }
 startWebsocket()
 
-firebase.initializeApp(firebaseConfig);
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+firebase.initializeApp(firebaseConfig)
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
-        console.log('user logged in');
+        console.log('user logged in')
     } else {
-        console.log('user logged out');
+        console.log('user logged out')
         window.location.href = "/login"
     }
 })
