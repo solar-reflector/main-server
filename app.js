@@ -9,10 +9,10 @@ const weatherData2 = require('./weatherData2');
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-var windSpeed = 0;
-var survivalSpeed = 65;
 var FRDM = null;
 var weatherData;
+var windSpeed = 0;
+var survivalSpeed = 65;
 var powerOn = true;
 var activeTracking = true;
 
@@ -22,11 +22,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
-  weatherData.survivalSpeed = survivalSpeed;
+  weatherData.survivalSpeed = survivalSpeed
   weatherData.windSpeed = '20 km/h'
   weatherData.state = powerOn ? 'Turn Off' : 'Turn On'
   weatherData.tracking = activeTracking ? 'Active' : 'Auto'
-  res.render('page2', weatherData);
+  res.render('page2', weatherData)
 })
 
 app.get('/login', (req, res) => {
