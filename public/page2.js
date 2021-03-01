@@ -51,7 +51,7 @@ function startWebsocket() {
 
     ws.onclose = () => {
         console.log("Websocket closed");
-        setTimeout(startWebsocket(), 10000);
+        setTimeout(() => { startWebsocket() }, 60000);
     }
 
     ws.onmessage = (event) => {
