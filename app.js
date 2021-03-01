@@ -38,7 +38,6 @@ wss.on('connection', function connection(ws, req) {
   weatherOutput();
   ws.on('close', () => console.log('Client logged out...'));
 
-
   ws.on('message', function incoming(data) {
 
     var json = JSON.parse(data);
@@ -69,7 +68,9 @@ wss.on('connection', function connection(ws, req) {
           survivalSpeed--
         }
         wss.clients.forEach(function each(client) {
-          client.send(JSON.stringify({ survivalSpeed: survivalSpeed }));
+          if (client != FRDM) {
+            client.send(JSON.stringify({ survivalSpeed: survivalSpeed }));
+          }
         });
         break;
     };
@@ -79,12 +80,13 @@ wss.on('connection', function connection(ws, req) {
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
 async function weatherOutput() {
- weatherData = await weatherData2.getWeather2();
-  var weatherReport = JSON.stringify({ weatherData: weatherData });
+  weatherData = await weatherData2.getWeather2();
 
   // send weatherReport
   wss.clients.forEach(function each(client) {
-    client.send(weatherReport);
+    if (client != FRDM) {
+      client.send(JSON.stringify({ weatherData: weatherData }));
+    }
   });
 }
 weatherOutput()
