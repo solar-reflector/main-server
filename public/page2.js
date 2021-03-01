@@ -37,13 +37,15 @@ function updateSurvivalSpeed() {
 }
 
 increase.addEventListener('click', event => {
-    survivalSpeed++
-    updateSurvivalSpeed()
+    // survivalSpeed++
+    // updateSurvivalSpeed()
+    ws.send(JSON.stringify({ topic: 'survivalSpeed', value: 'increase' }))
 })
 
 decrease.addEventListener('click', event => {
-    survivalSpeed--
-    updateSurvivalSpeed()
+    // survivalSpeed--
+    // updateSurvivalSpeed()
+    ws.send(JSON.stringify({ topic: 'survivalSpeed', value: 'decrease' }))
 })
 
 tracking.addEventListener('click', event => {
@@ -71,19 +73,19 @@ function startWebsocket() {
 
     ws.onmessage = (event) => {
         var json = JSON.parse(event.data);
-        switch (json.topic) {
-            case 'weatherData':
-                document.getElementById("temp").innerHTML = json.temp;
-                document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + json.snowDay;
-                document.getElementById("sunrise").innerHTML = 'Sunrise: ' + json.sunrise;
-                document.getElementById("sunset").innerHTML = 'Sunset: ' + json.sunset;
-                document.getElementById("icon").src = json.imgUrl;
-                survivalSpeed = json.survivalSpeed
-                break;
-            case 'survivalSpeed':
-                survivalSpeed = json.value;
-                survivalSpeedText.innerHTML = `Survival Speed: ${survivalSpeed} km/h`
-                break;
+        console.log(json)
+        if (json.weatherData) {
+            let { temp, snowDay, sunrise, sunset, imgUrl } = json.weatherData;
+            document.getElementById("temp").innerHTML = temp;
+            document.getElementById("snowfall").innerHTML = 'Next Snowfall: ' + snowDay;
+            document.getElementById("sunrise").innerHTML = 'Sunrise: ' + sunrise;
+            document.getElementById("sunset").innerHTML = 'Sunset: ' + sunset;
+            document.getElementById("icon").src = imgUrl;
+        }
+
+        if (json.survivalSpeed) {
+            survivalSpeed = json.survivalSpeed;
+            survivalSpeedText.innerHTML = `Survival Speed: ${survivalSpeed} km/h`
         }
     }
 }

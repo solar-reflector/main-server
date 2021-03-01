@@ -4,9 +4,10 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const http = require('http');
-const server = http.createServer(app);
-const wss = new WebSocket.Server({server});
 const weatherData2 = require('./weatherData2');
+
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
 var windSpeed = 0;
 var survivalSpeed = 65;
@@ -33,9 +34,9 @@ app.get('/login', (req, res) => {
 wss.on('connection', function connection(ws, req) {
   console.log('Client logged in...');
 
-    // Called on connection
-    weatherOutput();
-    ws.on('close', () => console.log('Client logged out...'));
+  // Called on connection
+  weatherOutput();
+  ws.on('close', () => console.log('Client logged out...'));
 
 
   ws.on('message', function incoming(data) {
@@ -60,11 +61,12 @@ wss.on('connection', function connection(ws, req) {
           FRDM.send('{"topic":"ON/OFF"}');
         };
         break;
-        
+
       case 'survivalSpeed':
-        survivalSpeed = json.value;
+        // survivalSpeed = json.value;
+        json.value == 'increase' ? survivalSpeed++ : survivalSpeed--
         wss.clients.forEach(function each(client) {
-          client.send(JSON.stringify({topic: 'survivalSpeed', value: survivalSpeed}));
+          client.send(JSON.stringify({ survivalSpeed: survivalSpeed }));
         });
         break;
     };
@@ -74,10 +76,13 @@ wss.on('connection', function connection(ws, req) {
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
 async function weatherOutput() {
+  // weatherData = await weatherData2.getWeather2();
+  // weatherData.topic = 'weatherData';
+  // weatherData.survivalSpeed = survivalSpeed;
+  // var weatherReport = JSON.stringify(weatherData);
+
   weatherData = await weatherData2.getWeather2();
-  weatherData.topic = 'weatherData';
-  weatherData.survivalSpeed = survivalSpeed;
-  var weatherReport = JSON.stringify(weatherData);
+  var weatherReport = JSON.stringify({ weatherData: weatherData });
 
   // send weatherReport
   wss.clients.forEach(function each(client) {
@@ -85,8 +90,7 @@ async function weatherOutput() {
   });
 }
 weatherOutput()
-
-// setInterval(weatherOutput(), 60000)
+setInterval(() => { weatherOutput() }, 60000)
 
 
 ///////////////////////////////////////////////////////////////////////////////
