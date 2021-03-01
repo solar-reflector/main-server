@@ -17,7 +17,7 @@ nav
         h6#sunset Sunset: #{sunset}
       img#icon.col.s4(src=imgUrl)
       h6#temp.center-align #{temp}
-    #state.card-panel.center-align State: Normal Operation
+    #state.card-panel.center-align State: #{state}
     .card-panel.row
       .col.s2
         button#decrease(style='font-weight: bold;') -
@@ -34,7 +34,7 @@ nav
       .col.s6.left-align
         button#logout(style='width: 120px;') Logout
       .col.s6.right-align
-        button#power(style='width: 120px;') #{state}
+        button#power(style='width: 120px;') #{powerOn}
 script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
 script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
 script(src='page2.js')

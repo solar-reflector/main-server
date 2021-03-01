@@ -22,10 +22,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
-  weatherData.survivalSpeed = survivalSpeed
   weatherData.windSpeed = '20 km/h'
-  weatherData.state = powerOn ? 'Turn Off' : 'Turn On'
+  weatherData.state = 'Normal Operation'
+  weatherData.survivalSpeed = survivalSpeed
   weatherData.tracking = activeTracking ? 'Active' : 'Auto'
+  weatherData.powerOn = powerOn ? 'Turn Off' : 'Turn On'
   res.render('page2', weatherData)
 })
 

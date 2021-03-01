@@ -6,7 +6,7 @@ var firebaseConfig = {
 };
 
 var logout = document.querySelector('#logout')
-logout.addEventListener('click', (event) => {
+logout.addEventListener('click', event => {
     firebase.auth().signOut();
 });
 
@@ -41,7 +41,7 @@ function startWebsocket() {
         setTimeout(() => { startWebsocket() }, 15000);
     }
 
-    ws.onmessage = (event) => {
+    ws.onmessage = event => {
         var json = JSON.parse(event.data);
         console.log(json)
 
@@ -65,6 +65,10 @@ function startWebsocket() {
         if (json.hasOwnProperty('activeTracking')) {
             tracking.innerHTML = json.activeTracking ? 'Active' : 'Auto'
         }
+        
+        if (json.hasOwnProperty('state')) {
+            document.getElementById("state").innerHTML = 'State: ' + json.state
+        }
     }
 }
 startWebsocket()
@@ -78,4 +82,4 @@ firebase.auth().onAuthStateChanged(user => {
         console.log('user logged out');
         window.location.href = "/login"
     }
-});
+})
