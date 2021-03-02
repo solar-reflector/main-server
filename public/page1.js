@@ -1,4 +1,4 @@
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBoxx31JxnOUq5Yes5vGaCNfiYjMjHHVFs",
   authDomain: "solar-reflector-6320d.firebaseapp.com",
   projectId: "solar-reflector-6320d"

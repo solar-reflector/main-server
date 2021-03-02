@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const http = require('http');
-const weatherData2 = require('./weatherData2');
+const Weather = require('./weatherData');
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
@@ -92,7 +92,7 @@ function broadcast(message) {
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
 async function weatherOutput() {
-  weatherData = await weatherData2.getWeather2();
+  weatherData = await Weather.getWeather();
 
   // send weatherReport
   broadcast(JSON.stringify({ weatherData: weatherData }))

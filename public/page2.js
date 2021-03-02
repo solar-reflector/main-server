@@ -1,31 +1,31 @@
 var ws
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBoxx31JxnOUq5Yes5vGaCNfiYjMjHHVFs",
     authDomain: "solar-reflector-6320d.firebaseapp.com",
     projectId: "solar-reflector-6320d"
 }
 
-var logout = document.querySelector('#logout')
+const logout = document.querySelector('#logout')
 logout.addEventListener('click', event => {
     firebase.auth().signOut()
 })
 
-var increase = document.querySelector('#increase')
+const increase = document.querySelector('#increase')
 increase.addEventListener('click', event => {
     ws.send(JSON.stringify({ topic: 'survivalSpeed', value: 'increase' }))
 })
 
-var decrease = document.querySelector('#decrease')
+const decrease = document.querySelector('#decrease')
 decrease.addEventListener('click', event => {
     ws.send(JSON.stringify({ topic: 'survivalSpeed', value: 'decrease' }))
 })
 
-var tracking = document.querySelector('#tracking')
+const tracking = document.querySelector('#tracking')
 tracking.addEventListener('click', event => {
     ws.send(JSON.stringify({ topic: 'trackingMode' }))
 })
 
-var power = document.querySelector('#power')
+const power = document.querySelector('#power')
 power.addEventListener('click', event => {
     ws.send(JSON.stringify({ topic: 'onOffClicked' }))
 })
