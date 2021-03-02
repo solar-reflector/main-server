@@ -57,7 +57,7 @@ wss.on('connection', function connection(ws, req) {
       case "onOffClicked":
         powerOn = !powerOn;
         if (FRDM) {
-          FRDM.send('{"topic":"ON/OFF"}');
+          FRDM.send(JSON.stringify({ powerOn: powerOn }));
         };
         broadcast(JSON.stringify({ powerOn: powerOn }))
         console.log('Power:', powerOn ? 'On' : 'Off')
@@ -70,6 +70,9 @@ wss.on('connection', function connection(ws, req) {
           survivalSpeed--
         }
         broadcast(JSON.stringify({ survivalSpeed: survivalSpeed }))
+        if (FRDM) {
+          FRDM.send(JSON.stringify({ survivalSpeed: survivalSpeed }))
+        }
         break;
 
       case 'trackingMode':
