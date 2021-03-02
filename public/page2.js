@@ -42,6 +42,14 @@ function startWebsocket() {
         setTimeout(() => { startWebsocket() }, 15000)
     }
 
+    ws.onping = () => {
+        console.log('Ping')
+    }
+
+    ws.onpong = () => {
+        console.log('Ping')
+    }
+
     ws.onmessage = event => {
         var json = JSON.parse(event.data)
         console.log(json)

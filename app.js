@@ -101,6 +101,15 @@ weatherOutput()
 setInterval(() => { weatherOutput() }, 60000)
 
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Ping WebSocket connections to keep alive
+setInterval(() => {
+  wss.clients.forEach(function each(client) {
+    client.ping();
+  });
+}, 5000);
+
 ///////////////////////////////////////////////////////////////////////////////
 // Console
 const port = process.env.PORT || 8080;
