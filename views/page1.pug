@@ -1,0 +1,27 @@
+doctype html
+head
+  title Solar Reflector | Sign In
+  meta(name='viewport' content='width=device-width, initial-scale=0.8')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
+  link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
+  link#theme(rel='stylesheet' type='text/css' href=darkMode)
+nav
+  .nav-wrapper.truncate
+    a.brand-logo.center(href='#' style='font-weight: bold; font-size: 20px;') SOLAR REFLECTOR
+    ul.right
+      li
+        a#switchTheme
+          i.material-icons brightness_6
+.container
+  form#loginForm
+    .row
+      .input-field.col.s12
+        input#email.validate(placeholder='Email' type='email')
+    .row
+      .input-field.col.s12
+        input#password.validate(placeholder='Password' type='password')
+    .row.center-align
+      button(type='submit') Sign In
+script(src='https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js')
+script(src='https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js')
+script(src='page1.js')

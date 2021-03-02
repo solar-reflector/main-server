@@ -1,7 +1,5 @@
 body {
-    background-image: linear-gradient(#4c94a8, #13424f);
-    background-attachment: fixed;
-    background-size: cover;
+    background-color: #121212;
     font-size: 16px;
     font-family: Verdana, sans-serif;
 }
@@ -10,7 +8,7 @@ h6 {
     font-size: 16px;
 }
 .nav-wrapper{
-    background-color: #185464;
+    background-color: #1e1e1e;
 }
 
 .container {
@@ -18,14 +16,14 @@ h6 {
     margin-top: 50px;
     padding: 10px;
     border-radius: 5px;
-    background-color: aqua;
+    background-color: #2e2e2e;
 }
 
 button {
     height: 38px;
     width: 120px;
-    background-color: #185464;
-    color: white;
+    background-color: #62dbc5;
+    color: #000000;
     border-radius: 5px;
     border: none;
     padding: 0px;
@@ -42,7 +40,11 @@ button:hover {
     margin: 0px;
 }
 
+input{
+    color: #ffffff;
+}
+
 ::placeholder {
-    color: black;
-    opacity: 0.6;
+    color: #ffffff;
+    opacity: 0.5;
 }

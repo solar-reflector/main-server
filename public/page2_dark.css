@@ -1,0 +1,43 @@
+body {
+    background-color: #121212;
+    font-size: 16px;
+    font-family: Verdana, sans-serif;
+  }
+  
+  h6 {
+    font-size: 16px;
+  }
+  
+  .nav-wrapper{
+    background-color: #1e1e1e;
+  }
+  
+  .container {
+    width: 400px;
+    margin-top: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #2e2e2e;
+  }
+  
+  .card-panel {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+  }
+  
+  button {
+    height: 38px;
+    width: 38px;
+    background-color: #62dbc5;
+    color: #000000;
+    border-radius: 5px;
+    border: none;
+    padding: 0px;
+    margin: auto;
+  }
+  
+  button:hover{
+    background-color: #52bbaf;
+  }

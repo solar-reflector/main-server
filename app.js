@@ -14,6 +14,7 @@ var weatherData;
 var survivalSpeed = 65;
 var powerOn = true;
 var activeTracking = true;
+var darkMode = true;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
@@ -26,11 +27,13 @@ app.get('/', (req, res) => {
   weatherData.survivalSpeed = survivalSpeed
   weatherData.tracking = activeTracking ? 'Active' : 'Auto'
   weatherData.powerOn = powerOn ? 'Turn Off' : 'Turn On'
+  weatherData.darkMode = darkMode ? 'page2_dark.css' : 'page2.css'
   res.render('page2', weatherData)
 })
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname + '/public/page1.html'));
+  // res.sendFile(path.join(__dirname + '/public/page1.html'));
+  res.render('page1', { darkMode: darkMode ? 'page1_dark.css' : 'page1.css' })
 })
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -74,10 +77,13 @@ wss.on('connection', function connection(ws, req) {
         activeTracking = !activeTracking
         broadcast(JSON.stringify({ activeTracking: activeTracking }))
         break;
+
+      case 'darkMode':
+        darkMode = !darkMode
+        broadcast(JSON.stringify({ darkMode: darkMode }))
     };
   });
 });
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients (Except FRDM)
@@ -99,8 +105,6 @@ async function weatherOutput() {
 }
 weatherOutput()
 setInterval(() => { weatherOutput() }, 60000)
-
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Ping WebSocket connections to keep alive
