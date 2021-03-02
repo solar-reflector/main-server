@@ -28,15 +28,3 @@ signupForm.addEventListener('submit', (event) => {
             console.log(error.message);
         });
 });
-
-const ws = new WebSocket(location.origin.replace(/^http/, 'ws'))
-const switchTheme = document.querySelector('#switchTheme')
-const theme = document.querySelector('#theme')
-switchTheme.addEventListener('click', event => {
-    if (theme.getAttribute("href") == 'page1.css') {
-        theme.href = 'page1_dark.css'
-    } else {
-        theme.href = 'page1.css'
-    }
-    ws.send(JSON.stringify({ topic: 'darkMode' }))
-})

@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<link rel="stylesheet" type="text/css" href="styles1.css">
+    <title>Solar Reflector | Sign In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="page1.css" id="theme">
 </head>
+
 <body>
+    <nav>
+        <div class="nav-wrapper truncate">
+            <a href="#" class="brand-logo center" style="font-weight: bold; font-size: 20px;">SOLAR REFLECTOR</a>
+        </div>
+    </nav>
+    <div class="container">
+        <form id="loginForm">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Email" id="email" type="email" class="validate">
+                </div>
+            </div>
 
-	<h1>INTELLIGENT SOLAR REFLECTOR</h1><br><br><br><br><br><br><br>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Password" id="password" type="password" class="validate">
+                </div>
+            </div>
 
-  <div class="loginBox">
-  	<form id="loginForm">
-  		<div class='myLabels'>
-				<label for="email">Enter Email:</label>
-				<input type="email" id="email" name="email" class="passwordField"><br><br>
-      	<label for="password">Enter Password:</label>
-				<input type="password" id="password" name="password" class="passwordField"><br>
-      </div>
-      <input type="submit" class="loginButton" value="SIGN IN">
-  	</form>
-  </div>
+            <div class="row center-align">
+                <button type="submit">Sign In</button>
+            </div>
+        </form>
+    </div>
 
-	<script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
-	<script src="auth.js"></script>
-	
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
+    <script src="page1.js"></script>
 </body>
+
 </html>

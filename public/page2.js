@@ -92,14 +92,3 @@ firebase.auth().onAuthStateChanged(user => {
         window.location.href = "/login"
     }
 })
-
-const switchTheme = document.querySelector('#switchTheme')
-const theme = document.querySelector('#theme')
-switchTheme.addEventListener('click', event => {
-    if (theme.getAttribute("href") == 'page2.css') {
-        theme.href = 'page2_dark.css'
-    } else {
-        theme.href = 'page2.css'
-    }
-    ws.send(JSON.stringify({ topic: 'darkMode' }))
-})
