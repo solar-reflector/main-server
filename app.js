@@ -13,7 +13,7 @@ var FRDM = null;
 var weatherData;
 var survivalSpeed = 65;
 var powerOn = true;
-var activeTracking = true;
+var activeTracking = true
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
