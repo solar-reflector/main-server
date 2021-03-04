@@ -38,8 +38,6 @@ app.get('/login', (req, res) => {
 // Websocket functions
 wss.on('connection', function connection(ws, req) {
 
-  // Called on connection
-  weatherOutput();
   console.log('Client Connected.');
 
   ws.on('close', () => console.log('Client Disconnected.'));
@@ -93,14 +91,14 @@ function broadcast(message) {
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
-async function weatherOutput() {
+async function updateWeather() {
   weatherData = await Weather.getWeather();
 
   // send weatherReport
   broadcast(JSON.stringify({ weatherData: weatherData }))
 }
-weatherOutput()
-setInterval(() => { weatherOutput() }, 60000)
+updateWeather()
+setInterval(() => { updateWeather() }, 60000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Ping WebSocket connections to keep alive
