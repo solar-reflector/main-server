@@ -10,10 +10,21 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 var FRDM = null;
-var weatherData;
-var survivalSpeed = 65;
-var powerOn = true;
-var activeTracking = true;
+
+var data = {
+  state: 'Normal Operation',
+  powerOn: true,
+  windSpeed: 20,
+  survivalSpeed: 65,
+  activeTracking: true,
+  weatherData: {
+    imgUrl: 'imgUrl',
+    temp: '20.0' + "\u00B0C",
+    sunrise: 'date',
+    sunset: 'date',
+    snowDay: 'day'
+  }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
@@ -21,16 +32,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
-  weatherData.windSpeed = '20 km/h'
-  weatherData.state = 'Normal Operation'
-  weatherData.survivalSpeed = survivalSpeed
-  weatherData.tracking = activeTracking ? 'Active' : 'Auto'
-  weatherData.powerOn = powerOn ? 'Turn Off' : 'Turn On'
-  res.render('page2', weatherData)
+  res.render('page2', data)
 })
 
 app.get('/login', (req, res) => {
-  // res.sendFile(path.join(__dirname + '/public/page1.html'));
   res.render('page1')
 })
 
@@ -38,12 +43,11 @@ app.get('/login', (req, res) => {
 // Websocket functions
 wss.on('connection', function connection(ws, req) {
 
-  // Called on connection
-  weatherOutput();
   console.log('Client Connected.');
 
   ws.on('close', () => console.log('Client Disconnected.'));
 
+<<<<<<< HEAD
   ws.on('message', function incoming(data) {
 
     var json = JSON.parse(data);
@@ -81,6 +85,64 @@ wss.on('connection', function connection(ws, req) {
         console.log('Tracking Mode:', activeTracking ? 'Active' : 'Auto')
         break;
     };
+=======
+  ws.on('message', function incoming(message) {
+
+    var json = JSON.parse(message);
+
+    if (json.hasOwnProperty('state')) {
+      data.powerOn = state.powerOn
+    }
+
+    if (json.hasOwnProperty('powerOn')) {
+      data.powerOn = json.powerOn
+    }
+
+    if (json.hasOwnProperty('windSpeed')) {
+      data.windSpeed = json.windSpeed
+    }
+
+    if (json.hasOwnProperty('survivalSpeed')) {
+      data.survivalSpeed = json.survivalSpeed
+    }
+
+    if (json.hasOwnProperty('activeTracking')) {
+      data.activeTracking = json.activeTracking
+    }
+
+    if (json.hasOwnProperty('topic')) {
+      switch (json.topic) {
+        case "FRDM":
+          FRDM = ws;
+          console.log("FRDM-K64F connected.")
+          break;
+
+        case "onOffClicked":
+          data.powerOn = !data.powerOn;
+          if (FRDM) {
+            FRDM.send('{"topic":"ON/OFF"}');
+          };
+          broadcast(JSON.stringify({ powerOn: data.powerOn }))
+          console.log('Power:', data.powerOn ? 'On' : 'Off')
+          break;
+
+        case 'survivalSpeed':
+          if (json.value == 'increase' & data.survivalSpeed < 80) {
+            data.survivalSpeed++
+          } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
+            data.survivalSpeed--
+          }
+          broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+          break;
+
+        case 'trackingMode':
+          data.activeTracking = !data.activeTracking
+          broadcast(JSON.stringify({ activeTracking: data.activeTracking }))
+          console.log('Tracking Mode:', data.activeTracking ? 'Active' : 'Auto')
+          break;
+      };
+    }
+>>>>>>> 2251400595dcd86413862fe7c702c61190611889
   });
 });
 
@@ -96,14 +158,14 @@ function broadcast(message) {
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
-async function weatherOutput() {
-  weatherData = await Weather.getWeather();
+async function updateWeather() {
+  data.weatherData = await Weather.getWeather();
 
   // send weatherReport
-  broadcast(JSON.stringify({ weatherData: weatherData }))
+  broadcast(JSON.stringify({ weatherData: data.weatherData }))
 }
-weatherOutput()
-setInterval(() => { weatherOutput() }, 60000)
+updateWeather()
+setInterval(() => { updateWeather() }, 60000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Ping WebSocket connections to keep alive

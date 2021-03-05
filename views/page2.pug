@@ -12,11 +12,11 @@ nav
       .col.s8
         h6#location Fredericton, NB
         h6#windSpeed Wind Speed: #{windSpeed}
-        h6#snowfall Next Snowfall: #{snowDay}
-        h6#sunrise Sunrise: #{sunrise}
-        h6#sunset Sunset: #{sunset}
-      img#icon.col.s4(src=imgUrl)
-      h6#temp.center-align #{temp}
+        h6#snowfall Next Snowfall: #{weatherData.snowDay}
+        h6#sunrise Sunrise: #{weatherData.sunrise}
+        h6#sunset Sunset: #{weatherData.sunset}
+      img#icon.col.s4(src=weatherData.imgUrl)
+      h6#temp.center-align #{weatherData.temp}
     #state.card-panel.center-align State: #{state}
     .card-panel.row
       .col.s2
@@ -26,7 +26,7 @@ nav
         button#increase(style='font-weight: bold;') +
     .card-panel.center-align
       a(style='margin-right: 10px;') Tracking Mode:
-      button#tracking(style='width: 120px;') #{tracking}
+      button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
     .card-panel.center-align
       a(style='margin-right: 10px;') Capacity Level:
       button#capacity(style='width: 120px;') 95% Power
@@ -34,7 +34,7 @@ nav
       .col.s6.left-align
         button#logout(style='width: 120px;') Logout
       .col.s6.right-align
-        button#power(style='width: 120px;') #{powerOn}
+        button#power(style='width: 120px;') #{powerOn ? 'Turn Off' : 'Turn On'}
 script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
 script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
 script(src='page2.js')
