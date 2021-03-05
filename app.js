@@ -47,45 +47,6 @@ wss.on('connection', function connection(ws, req) {
 
   ws.on('close', () => console.log('Client Disconnected.'));
 
-<<<<<<< HEAD
-  ws.on('message', function incoming(data) {
-
-    var json = JSON.parse(data);
-
-    switch (json.topic) {
-      case "FRDM":
-        FRDM = ws;
-        console.log("FRDM-K64F connected.")
-        break;
-
-      case "onOffClicked":
-        powerOn = !powerOn;
-        if (FRDM) {
-          FRDM.send(JSON.stringify({ powerOn: powerOn }));
-        };
-        broadcast(JSON.stringify({ powerOn: powerOn }))
-        console.log('Power:', powerOn ? 'On' : 'Off')
-        break;
-
-      case 'survivalSpeed':
-        if (json.value == 'increase' & survivalSpeed < 80) {
-          survivalSpeed++
-        } else if (json.value == 'decrease' & survivalSpeed > 10) {
-          survivalSpeed--
-        }
-        broadcast(JSON.stringify({ survivalSpeed: survivalSpeed }))
-        if (FRDM) {
-          FRDM.send(JSON.stringify({ survivalSpeed: survivalSpeed }))
-        }
-        break;
-
-      case 'trackingMode':
-        activeTracking = !activeTracking
-        broadcast(JSON.stringify({ activeTracking: activeTracking }))
-        console.log('Tracking Mode:', activeTracking ? 'Active' : 'Auto')
-        break;
-    };
-=======
   ws.on('message', function incoming(message) {
 
     var json = JSON.parse(message);
@@ -142,7 +103,6 @@ wss.on('connection', function connection(ws, req) {
           break;
       };
     }
->>>>>>> 2251400595dcd86413862fe7c702c61190611889
   });
 });
 
