@@ -18,7 +18,7 @@ var data = {
   survivalSpeed: 60,
   activeTracking: true,
   weatherData: {
-    imgUrl: 'imgUrl',
+    imgUrl: 'https://openweathermap.org/img/wn/01d@2x.png',
     temp: '20.0' + "\u00B0C",
     sunrise: 'date',
     sunset: 'date',
@@ -65,10 +65,10 @@ wss.on('connection', function connection(ws, req) {
           break
 
         case "onOffClicked":
-          data.powerOn = !data.powerOn;
+          data.powerOn = !data.powerOn
           if (FRDM) {
-            FRDM.send('{"topic":"ON/OFF"}');
-          };
+            FRDM.send('{"topic":"ON/OFF"}')
+          }
           broadcast(JSON.stringify({ powerOn: data.powerOn }))
           console.log('Power:', data.powerOn ? 'On' : 'Off')
           break
@@ -87,13 +87,14 @@ wss.on('connection', function connection(ws, req) {
           broadcast(JSON.stringify({ activeTracking: data.activeTracking }))
           console.log('Tracking Mode:', data.activeTracking ? 'Active' : 'Auto')
           break
-        
+
         case 'update':
           broadcastAll(JSON.stringify(data))
-      };
+          break
+      }
     }
-  });
-});
+  })
+})
 
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients
@@ -102,9 +103,8 @@ function broadcastAll(message) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(message)
     }
-  });
+  })
 }
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients (Except FRDM)
@@ -113,7 +113,7 @@ function broadcast(message) {
     if (client !== FRDM && client.readyState === WebSocket.OPEN) {
       client.send(message)
     }
-  });
+  })
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -121,13 +121,13 @@ function broadcast(message) {
 setInterval(() => {
   wss.clients.forEach(function each(client) {
     client.ping()
-  });
+  })
 }, 5000)
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
 async function updateWeather() {
-  data.weatherData = await Weather.getWeather();
+  data.weatherData = await Weather.getWeather()
 
   // send weatherReport
   broadcast(JSON.stringify({ weatherData: data.weatherData }))
@@ -137,7 +137,7 @@ setInterval(() => { updateWeather() }, 60000)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Console
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080
 server.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at http://localhost:${port}`)
 })
