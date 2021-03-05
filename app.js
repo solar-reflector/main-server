@@ -51,25 +51,11 @@ wss.on('connection', function connection(ws, req) {
 
     var json = JSON.parse(message);
 
-    if (json.hasOwnProperty('state')) {
-      data.powerOn = state.powerOn
-    }
-
-    if (json.hasOwnProperty('powerOn')) {
-      data.powerOn = json.powerOn
-    }
-
-    if (json.hasOwnProperty('windSpeed')) {
-      data.windSpeed = json.windSpeed
-    }
-
-    if (json.hasOwnProperty('survivalSpeed')) {
-      data.survivalSpeed = json.survivalSpeed
-    }
-
-    if (json.hasOwnProperty('activeTracking')) {
-      data.activeTracking = json.activeTracking
-    }
+    json.hasOwnProperty('state') && (data.powerOn = json.powerOn)
+    json.hasOwnProperty('powerOn') && (data.powerOn = json.powerOn)
+    json.hasOwnProperty('windSpeed') && (data.windSpeed = json.windSpeed)
+    json.hasOwnProperty('survivalSpeed') && (data.survivalSpeed = json.survivalSpeed)
+    json.hasOwnProperty('activeTracking') && (data.activeTracking = json.activeTracking)
 
     if (json.hasOwnProperty('topic')) {
       switch (json.topic) {
@@ -107,14 +93,33 @@ wss.on('connection', function connection(ws, req) {
 });
 
 //////////////////////////////////////////////////////////////////////////////
-// Broadcast WebSocket message to all clients (Except FRDM)
-function broadcast(message) {
+// Broadcast WebSocket message to all clients
+function broadcastAll(message) {
   wss.clients.forEach(function each(client) {
-    if (client != FRDM) {
+    if (client.readyState === WebSocket.OPEN) {
       client.send(message);
     }
   });
 }
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Broadcast WebSocket message to all clients (Except FRDM)
+function broadcast(message) {
+  wss.clients.forEach(function each(client) {
+    if (client !== FRDM && client.readyState === WebSocket.OPEN) {
+      client.send(message);
+    }
+  });
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Ping WebSocket connections to keep alive
+setInterval(() => {
+  wss.clients.forEach(function each(client) {
+    client.ping();
+  });
+}, 5000);
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
@@ -126,14 +131,6 @@ async function updateWeather() {
 }
 updateWeather()
 setInterval(() => { updateWeather() }, 60000)
-
-//////////////////////////////////////////////////////////////////////////////
-// Ping WebSocket connections to keep alive
-setInterval(() => {
-  wss.clients.forEach(function each(client) {
-    client.ping();
-  });
-}, 5000);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Console
