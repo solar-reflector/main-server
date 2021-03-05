@@ -1,15 +1,15 @@
 // Initialize
-const WebSocket = require('ws');
-const express = require('express');
-const path = require('path');
-const app = express();
-const http = require('http');
-const Weather = require('./weatherData');
+const WebSocket = require('ws')
+const express = require('express')
+const path = require('path')
+const app = express()
+const http = require('http')
+const Weather = require('./weatherData')
 
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const server = http.createServer(app)
+const wss = new WebSocket.Server({ server })
 
-var FRDM = null;
+var FRDM = null
 
 var data = {
   state: 'Normal Operation',
@@ -28,7 +28,7 @@ var data = {
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
@@ -43,13 +43,13 @@ app.get('/login', (req, res) => {
 // Websocket functions
 wss.on('connection', function connection(ws, req) {
 
-  console.log('Client Connected.');
+  console.log('Client Connected.')
 
-  ws.on('close', () => console.log('Client Disconnected.'));
+  ws.on('close', () => console.log('Client Disconnected.'))
 
   ws.on('message', function incoming(message) {
 
-    var json = JSON.parse(message);
+    var json = JSON.parse(message)
 
     json.hasOwnProperty('state') && (data.powerOn = json.powerOn)
     json.hasOwnProperty('powerOn') && (data.powerOn = json.powerOn)
@@ -60,9 +60,9 @@ wss.on('connection', function connection(ws, req) {
     if (json.hasOwnProperty('topic')) {
       switch (json.topic) {
         case "FRDM":
-          FRDM = ws;
+          FRDM = ws
           console.log("FRDM-K64F connected.")
-          break;
+          break
 
         case "onOffClicked":
           data.powerOn = !data.powerOn;
@@ -71,7 +71,7 @@ wss.on('connection', function connection(ws, req) {
           };
           broadcast(JSON.stringify({ powerOn: data.powerOn }))
           console.log('Power:', data.powerOn ? 'On' : 'Off')
-          break;
+          break
 
         case 'survivalSpeed':
           if (json.value == 'increase' & data.survivalSpeed < 80) {
@@ -80,13 +80,16 @@ wss.on('connection', function connection(ws, req) {
             data.survivalSpeed--
           }
           broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
-          break;
+          break
 
         case 'trackingMode':
           data.activeTracking = !data.activeTracking
           broadcast(JSON.stringify({ activeTracking: data.activeTracking }))
           console.log('Tracking Mode:', data.activeTracking ? 'Active' : 'Auto')
-          break;
+          break
+        
+        case 'update':
+          broadcastAll(JSON.stringify(data))
       };
     }
   });
@@ -97,7 +100,7 @@ wss.on('connection', function connection(ws, req) {
 function broadcastAll(message) {
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(message);
+      client.send(message)
     }
   });
 }
@@ -108,7 +111,7 @@ function broadcastAll(message) {
 function broadcast(message) {
   wss.clients.forEach(function each(client) {
     if (client !== FRDM && client.readyState === WebSocket.OPEN) {
-      client.send(message);
+      client.send(message)
     }
   });
 }
@@ -117,9 +120,9 @@ function broadcast(message) {
 // Ping WebSocket connections to keep alive
 setInterval(() => {
   wss.clients.forEach(function each(client) {
-    client.ping();
+    client.ping()
   });
-}, 5000);
+}, 5000)
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
