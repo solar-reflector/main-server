@@ -15,7 +15,7 @@ var data = {
   state: 'Normal Operation',
   powerOn: true,
   windSpeed: 20,
-  survivalSpeed: 65,
+  survivalSpeed: 60,
   activeTracking: true,
   weatherData: {
     imgUrl: 'imgUrl',
