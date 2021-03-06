@@ -6,8 +6,8 @@ const path = require('path')
 const app = express()
 const http = require('http')
 const Weather = require('./weatherData')
-var admin = require("firebase-admin")
-var serviceAccount = require("./accountKey.json")
+const admin = require("firebase-admin")
+const serviceAccount = require("./accountKey.json")
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initialize 
@@ -18,9 +18,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 })
 const db = admin.firestore()
-
 var FRDM = null
-
 var data = {
   state: 'Normal Operation',
   powerOn: false,
@@ -100,7 +98,7 @@ wss.on('connection', function connection(ws, req) {
           break
 
         case 'update':
-          broadcastAll(JSON.stringify(data))
+          ws.send(JSON.stringify(data))
           break
       }
     }
