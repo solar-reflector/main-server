@@ -5,9 +5,16 @@ const path = require('path')
 const app = express()
 const http = require('http')
 const Weather = require('./weatherData')
+var admin = require("firebase-admin")
+var serviceAccount = require("./accountKey.json")
 
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
+const db = admin.firestore()
 
 var FRDM = null
 
@@ -70,7 +77,7 @@ wss.on('connection', function connection(ws, req) {
             FRDM.send('{"topic":"ON/OFF"}')
           }
           broadcast(JSON.stringify({ powerOn: data.powerOn }))
-          console.log('Power:', data.powerOn ? 'On' : 'Off')
+          updateDB({ powerOn: data.powerOn })
           break
 
         case 'survivalSpeed':
@@ -80,12 +87,13 @@ wss.on('connection', function connection(ws, req) {
             data.survivalSpeed--
           }
           broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+          updateDB({ survivalSpeed: data.survivalSpeed })
           break
 
         case 'trackingMode':
           data.activeTracking = !data.activeTracking
           broadcast(JSON.stringify({ activeTracking: data.activeTracking }))
-          console.log('Tracking Mode:', data.activeTracking ? 'Active' : 'Auto')
+          updateDB({ activeTracking: data.activeTracking })
           break
 
         case 'update':
@@ -134,6 +142,25 @@ async function updateWeather() {
 }
 updateWeather()
 setInterval(() => { updateWeather() }, 60000)
+
+//////////////////////////////////////////////////////////////////////////////
+// Database functions
+const deviceRef = db.collection('device').doc('FRDM')
+
+async function updateDB(item) {
+  await deviceRef.update(item)
+    .catch(err => console.log('Error', err))
+}
+
+async function getDB() {
+  const doc = await deviceRef.get()
+  if (!doc.exists) {
+    console.log('Error getting document')
+  } else {
+    console.log('FRDM data:', doc.data())
+  }
+}
+getDB()
 
 ///////////////////////////////////////////////////////////////////////////////
 // Console
