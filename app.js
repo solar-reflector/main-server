@@ -1,19 +1,28 @@
-// Initialize
+///////////////////////////////////////////////////////////////////////////////
+// Import Libraries
 const WebSocket = require('ws')
 const express = require('express')
 const path = require('path')
 const app = express()
 const http = require('http')
 const Weather = require('./weatherData')
+const admin = require("firebase-admin")
+const serviceAccount = require("./accountKey.json")
 
+///////////////////////////////////////////////////////////////////////////////
+// Initialize 
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
-var FRDM = null
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
 
+const db = admin.firestore()
+var FRDM = null
 var data = {
   state: 'Normal Operation',
-  powerOn: true,
+  powerOn: false,
   windSpeed: 20,
   survivalSpeed: 60,
   activeTracking: true,
@@ -40,7 +49,7 @@ app.get('/login', (req, res) => {
 })
 
 ///////////////////////////////////////////////////////////////////////////////
-// Websocket functions
+// Handle WebSocket connections & messages
 wss.on('connection', function connection(ws, req) {
 
   console.log('Client Connected.')
@@ -70,7 +79,7 @@ wss.on('connection', function connection(ws, req) {
             FRDM.send('{"topic":"ON/OFF"}')
           }
           broadcast(JSON.stringify({ powerOn: data.powerOn }))
-          console.log('Power:', data.powerOn ? 'On' : 'Off')
+          updateDB({ powerOn: data.powerOn })
           break
 
         case 'survivalSpeed':
@@ -80,16 +89,17 @@ wss.on('connection', function connection(ws, req) {
             data.survivalSpeed--
           }
           broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+          updateDB({ survivalSpeed: data.survivalSpeed })
           break
 
         case 'trackingMode':
           data.activeTracking = !data.activeTracking
           broadcast(JSON.stringify({ activeTracking: data.activeTracking }))
-          console.log('Tracking Mode:', data.activeTracking ? 'Active' : 'Auto')
+          updateDB({ activeTracking: data.activeTracking })
           break
 
         case 'update':
-          broadcastAll(JSON.stringify(data))
+          ws.send(JSON.stringify(data))
           break
       }
     }
@@ -128,15 +138,35 @@ setInterval(() => {
 // WeatherData function
 async function updateWeather() {
   data.weatherData = await Weather.getWeather()
-
-  // send weatherReport
   broadcast(JSON.stringify({ weatherData: data.weatherData }))
 }
 updateWeather()
 setInterval(() => { updateWeather() }, 60000)
 
+//////////////////////////////////////////////////////////////////////////////
+// Database functions
+const deviceRef = db.collection('device').doc('FRDM')
+
+async function updateDB(item) {
+  await deviceRef.update(item)
+    .catch(err => console.log('Error', err))
+}
+
+async function getDB() {
+  const doc = await deviceRef.get()
+  if (!doc.exists) {
+    console.log('Error getting document')
+  } else {
+    for (key in doc.data()) {
+      data[key] = doc.data()[key]
+    }
+    broadcast(data)
+  }
+}
+getDB()
+
 ///////////////////////////////////////////////////////////////////////////////
-// Console
+// Start server
 const port = process.env.PORT || 8080
 server.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
