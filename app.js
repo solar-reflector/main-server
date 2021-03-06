@@ -59,17 +59,11 @@ wss.on('connection', function connection(ws, req) {
 
     var json = JSON.parse(message)
 
-    json.hasOwnProperty('state') && (data.powerOn = json.powerOn)
-    json.hasOwnProperty('powerOn') && (data.powerOn = json.powerOn)
-    json.hasOwnProperty('windSpeed') && (data.windSpeed = json.windSpeed)
-    json.hasOwnProperty('survivalSpeed') && (data.survivalSpeed = json.survivalSpeed)
-    json.hasOwnProperty('activeTracking') && (data.activeTracking = json.activeTracking)
-
     if (json.hasOwnProperty('topic')) {
       switch (json.topic) {
         case "FRDM":
           FRDM = ws
-          
+
           if (json.hasOwnProperty('data')) {
             for (key in doc.data) {
               data[key] = doc.data[key]
@@ -108,6 +102,11 @@ wss.on('connection', function connection(ws, req) {
           break
       }
     }
+    // json.hasOwnProperty('state') && (data.powerOn = json.powerOn)
+    // json.hasOwnProperty('powerOn') && (data.powerOn = json.powerOn)
+    // json.hasOwnProperty('windSpeed') && (data.windSpeed = json.windSpeed)
+    // json.hasOwnProperty('survivalSpeed') && (data.survivalSpeed = json.survivalSpeed)
+    // json.hasOwnProperty('activeTracking') && (data.activeTracking = json.activeTracking)
   })
 })
 
