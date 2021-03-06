@@ -1,4 +1,5 @@
-// Initialize
+///////////////////////////////////////////////////////////////////////////////
+// Import Libraries
 const WebSocket = require('ws')
 const express = require('express')
 const path = require('path')
@@ -8,6 +9,8 @@ const Weather = require('./weatherData')
 var admin = require("firebase-admin")
 var serviceAccount = require("./accountKey.json")
 
+///////////////////////////////////////////////////////////////////////////////
+// Initialize 
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
@@ -47,7 +50,7 @@ app.get('/login', (req, res) => {
 })
 
 ///////////////////////////////////////////////////////////////////////////////
-// Websocket functions
+// Handle WebSocket connections & messages
 wss.on('connection', function connection(ws, req) {
 
   console.log('Client Connected.')
@@ -136,8 +139,6 @@ setInterval(() => {
 // WeatherData function
 async function updateWeather() {
   data.weatherData = await Weather.getWeather()
-
-  // send weatherReport
   broadcast(JSON.stringify({ weatherData: data.weatherData }))
 }
 updateWeather()
@@ -166,7 +167,7 @@ async function getDB() {
 getDB()
 
 ///////////////////////////////////////////////////////////////////////////////
-// Console
+// Start server
 const port = process.env.PORT || 8080
 server.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
