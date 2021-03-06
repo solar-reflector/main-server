@@ -17,6 +17,7 @@ const wss = new WebSocket.Server({ server })
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 })
+
 const db = admin.firestore()
 var FRDM = null
 var data = {
@@ -143,7 +144,7 @@ updateWeather()
 setInterval(() => { updateWeather() }, 60000)
 
 //////////////////////////////////////////////////////////////////////////////
-// Database functions
+// Database functions (Read/Write)
 const deviceRef = db.collection('device').doc('FRDM')
 
 async function updateDB(item) {
