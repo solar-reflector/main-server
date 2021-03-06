@@ -20,7 +20,7 @@ var FRDM = null
 
 var data = {
   state: 'Normal Operation',
-  powerOn: true,
+  powerOn: false,
   windSpeed: 20,
   survivalSpeed: 60,
   activeTracking: true,
@@ -157,7 +157,10 @@ async function getDB() {
   if (!doc.exists) {
     console.log('Error getting document')
   } else {
-    console.log('FRDM data:', doc.data())
+    for (key in doc.data()) {
+      data[key] = doc.data()[key]
+    }
+    broadcast(data)
   }
 }
 getDB()
