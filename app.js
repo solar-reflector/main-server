@@ -7,7 +7,7 @@ const app = express()
 const http = require('http')
 const Weather = require('./weatherData')
 const admin = require("firebase-admin")
-const serviceAccount = require("./accountKey.json")
+const serviceAccount = require("./accountKey")
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initialize 
@@ -18,7 +18,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 })
 
-const db = admin.firestore()
 var FRDM = null
 var data = {
   state: 'Normal Operation',
@@ -88,7 +87,7 @@ wss.on('connection', function connection(ws, req) {
           } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
             data.survivalSpeed--
           }
-          broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+          // broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
           updateDB({ survivalSpeed: data.survivalSpeed })
           break
 
@@ -145,15 +144,16 @@ setInterval(() => { updateWeather() }, 60000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Database functions (Read/Write)
-const deviceRef = db.collection('device').doc('FRDM')
+const deviceRef = admin.firestore().collection('device').doc('FRDM')
 
 async function updateDB(item) {
   await deviceRef.update(item)
-    .catch(err => console.log('Error', err))
+    .then(() => broadcast(JSON.stringify(item)))
+    .catch(() => console.log('Error upating Firestore.'))
 }
 
 async function getDB() {
-  const doc = await deviceRef.get()
+  const doc = await deviceRef.get().then(doc =>)
   if (!doc.exists) {
     console.log('Error getting document')
   } else {
