@@ -17,7 +17,6 @@ const wss = new WebSocket.Server({ server })
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 })
-
 const db = admin.firestore()
 var FRDM = null
 var data = {
