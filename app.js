@@ -69,6 +69,12 @@ wss.on('connection', function connection(ws, req) {
       switch (json.topic) {
         case "FRDM":
           FRDM = ws
+          
+          if (json.hasOwnProperty('data')) {
+            for (key in doc.data) {
+              data[key] = doc.data[key]
+            }
+          }
           console.log("FRDM-K64F connected.")
           break
 
@@ -87,7 +93,7 @@ wss.on('connection', function connection(ws, req) {
           } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
             data.survivalSpeed--
           }
-          // broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+          broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
           updateDB({ survivalSpeed: data.survivalSpeed })
           break
 
@@ -144,16 +150,15 @@ setInterval(() => { updateWeather() }, 60000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Database functions (Read/Write)
-const deviceRef = admin.firestore().collection('device').doc('FRDM')
+const deviceRef = admin.firestore().collection('devices').doc('FRDM')
 
 async function updateDB(item) {
   await deviceRef.update(item)
-    .then(() => broadcast(JSON.stringify(item)))
     .catch(() => console.log('Error upating Firestore.'))
 }
 
 async function getDB() {
-  const doc = await deviceRef.get().then(doc =>)
+  const doc = await deviceRef.get()
   if (!doc.exists) {
     console.log('Error getting document')
   } else {
