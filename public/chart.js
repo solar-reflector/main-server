@@ -22,7 +22,8 @@ var config = {
             }],
             yAxes: [{
                 ticks: {
-                    padding: 50
+                    suggestedMin: 300,
+                    suggestedMax: 440
                 }
             }]
         },
