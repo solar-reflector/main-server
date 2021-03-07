@@ -169,6 +169,18 @@ async function getDB() {
 }
 getDB()
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Database Test
+async function addDataPoint() {
+  await admin.firestore().collection('data').add({
+    value: (Math.random() * 200 + 100).toFixed(1),
+    mode: 'normal',
+    date: admin.firestore.FieldValue.serverTimestamp()
+  }).catch(err => { console.log(err) })
+}
+setInterval(() => { addDataPoint() }, 15000)
+
 ///////////////////////////////////////////////////////////////////////////////
 // Start server
 const port = process.env.PORT || 8080
