@@ -3,8 +3,8 @@ var config = {
     data: {
         datasets: [{
             data: [],
-            backgroundColor: 'rgba(24, 84, 100, 0.1)',
-            borderColor: 'rgba(24, 84, 100, 0.8)',
+            backgroundColor: 'rgba(24,84,100, 0.1)',
+            borderColor: '#185464',
             fill: true,
             lineTension: 0.15
         }]
