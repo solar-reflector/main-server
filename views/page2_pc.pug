@@ -35,12 +35,12 @@ html
                 button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
           div(style='height: 50%; padding: 5px;')
             .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
-              .col.s2.center-align(style='padding: 0px;')
-                button.center-align#decrease(style='font-weight: bold; width: 38px;') -
-              .col.s8.center-align(style='padding: 0px;')
+              .col.s3.l2.right-align(style='padding: 0px;')
+                button#decrease(style='font-weight: bold; width: 38px;') -
+              .col.s6.l8.center-align(style='padding: 0px;')
                 #survivalSpeed Survival Speed: #{survivalSpeed} km/h
-              .col.s2.center-align(style='padding: 0px;')
-                button.center-align#increase(style='font-weight: bold; width: 38px;') +
+              .col.s3.l2.left-align(style='padding: 0px;')
+                button#increase(style='font-weight: bold; width: 38px;') +
         .col.s12.l4(style='height: 100%; padding: 0px;')
           div(style='height: 50%; padding: 5px;')
             .card-panel.valign-wrapper(style='height: 100%;')
