@@ -139,7 +139,7 @@ setInterval(() => {
   wss.clients.forEach(function each(client) {
     client.ping()
   })
-}, 5000)
+}, 30000)
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
@@ -171,18 +171,6 @@ async function getDB() {
   }
 }
 getDB()
-
-
-//////////////////////////////////////////////////////////////////////////////
-// Database Test
-async function addDataPoint() {
-  await admin.firestore().collection('data').add({
-    value: (Math.random() * 200 + 100).toFixed(1),
-    mode: 'normal',
-    date: admin.firestore.FieldValue.serverTimestamp()
-  }).catch(err => { console.log(err) })
-}
-setInterval(() => { addDataPoint() }, 15000)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Start server
