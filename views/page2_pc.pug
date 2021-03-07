@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    title Solar Reflector
+    meta(name='viewport' content='width=device-width, initial-scale=0.8, user-scalable=0')
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
+    link(rel='stylesheet' type='text/css' href='page2_pc.css')
+  body
+    nav
+      .nav-wrapper.truncate
+        a.brand-logo.center(style='font-weight: bold; font-size: 20px;') SOLAR REFLECTOR
+    .container.z-depth-1
+      canvas#canvas(style='width: 100%; height: 450px; padding-bottom: 10px;')
+    .row(style='height: 220px; width: 1200px;')
+      .col.s4(style='height: 100%; padding: 20px 10px 20px 0;')
+        .card-panel(style='height: 100%;')
+          .row
+            .col.s8
+              h6#location Fredericton, NB
+              h6#windSpeed Wind Speed: #{windSpeed} km/h
+              h6#snowfall Next Snowfall: #{weatherData.snowDay}
+              h6#sunrise Sunrise: #{weatherData.sunrise}
+              h6#sunset Sunset: #{weatherData.sunset}
+            .col.s4
+              img#icon(src=weatherData.imgUrl)
+              h6#temp.center-align(style='margin: 0px') #{weatherData.temp}
+      .col.s4(style='height: 100%; padding: 0px;')
+        div(style='height: 50%; padding: 20px 10px 10px 10px;')
+          .card-panel.valign-wrapper(style='height: 100%;')
+            .center-align
+              a(style='margin-right: 10px;') Tracking Mode:
+              button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
+        div(style='height: 50%; padding: 10px 10px 20px 10px;')
+          .card-panel.valign-wrapper(style='height: 100%;')
+            .row.valign-wrapper(style='margin: 0px;')
+              .col.s2
+                button#decrease(style='font-weight: bold; width: 38px;') -
+              .col.s8.center-align#survivalSpeed Survival Speed: #{survivalSpeed} km/h
+              .col.s2
+                button#increase(style='font-weight: bold; width: 38px;') +
+      .col.s4(style='height: 100%; padding: 0px;')
+        div(style='height: 50%; padding: 20px 0px 10px 10px;')
+          .card-panel.valign-wrapper(style='height: 100%;')
+            .center-align#state State: #{state}
+        div(style='height: 50%; padding: 10px 0px 20px 10px;')
+          .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
+            .col.s6.center-align
+              button#logout(style='width: 120px;') Logout
+            .col.s6.center-align
+              button#power(style='width: 120px;') #{powerOn ? 'Turn Off' : 'Turn On'}    
+    script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
+    script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
+    script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-firestore.js")
+    script(src="Chart.bundle.min.js")
+    script(src='page2.js')
+    script(src='chart.js')

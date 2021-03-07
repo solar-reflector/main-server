@@ -47,6 +47,9 @@ app.get('/login', (req, res) => {
   res.render('page1')
 })
 
+app.get('/pc', (req, res) => {
+  res.render('page2_pc', data)
+})
 ///////////////////////////////////////////////////////////////////////////////
 // Handle WebSocket connections & messages
 wss.on('connection', function connection(ws, req) {
@@ -136,7 +139,7 @@ setInterval(() => {
   wss.clients.forEach(function each(client) {
     client.ping()
   })
-}, 5000)
+}, 30000)
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
