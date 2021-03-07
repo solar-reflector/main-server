@@ -2,7 +2,7 @@ doctype html
 html
   head
     title Solar Reflector
-    meta(name='viewport' content='width=device-width, initial-scale=0.8, user-scalable=0')
+    meta(name='viewport' content='width=device-width, initial-scale=0.52, user-scalable=0')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
     link(rel='stylesheet' type='text/css' href='page2_pc.css')
   body
@@ -10,9 +10,10 @@ html
       .nav-wrapper.truncate
         a.brand-logo.center(style='font-weight: bold; font-size: 20px;') SOLAR REFLECTOR
     .container.z-depth-1
-      canvas#canvas(style='width: 100%; height: 450px; padding-bottom: 10px;')
-    .row(style='height: 220px; width: 1200px;')
-      .col.s4(style='height: 100%; padding: 20px 10px 20px 0;')
+      .chart-container(style='width: 100%; height: 100%;')
+        canvas#canvas
+    .row(style='height: 220px; width: 85%;')
+      .col.s12.l4(style='height: 100%; padding: 20px 10px 20px 0;')
         .card-panel(style='height: 100%;')
           .row
             .col.s8
@@ -24,21 +25,21 @@ html
             .col.s4
               img#icon(src=weatherData.imgUrl)
               h6#temp.center-align(style='margin: 0px') #{weatherData.temp}
-      .col.s4(style='height: 100%; padding: 0px;')
+      .col.s12.l4(style='height: 100%; padding: 0px;')
         div(style='height: 50%; padding: 20px 10px 10px 10px;')
           .card-panel.valign-wrapper(style='height: 100%;')
             .center-align
               a(style='margin-right: 10px;') Tracking Mode:
               button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
         div(style='height: 50%; padding: 10px 10px 20px 10px;')
-          .card-panel.valign-wrapper(style='height: 100%;')
-            .row.valign-wrapper(style='margin: 0px;')
-              .col.s2
-                button#decrease(style='font-weight: bold; width: 38px;') -
-              .col.s8.center-align#survivalSpeed Survival Speed: #{survivalSpeed} km/h
-              .col.s2
-                button#increase(style='font-weight: bold; width: 38px;') +
-      .col.s4(style='height: 100%; padding: 0px;')
+          .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
+            .col.s2.center-align
+              button.center-align#decrease(style='font-weight: bold; width: 38px;') -
+            .col.s8.center-align
+              #survivalSpeed Survival Speed: #{survivalSpeed} km/h
+            .col.s2.center-align
+              button.center-align#increase(style='font-weight: bold; width: 38px;') +
+      .col.s12.l4(style='height: 100%; padding: 0px;')
         div(style='height: 50%; padding: 20px 0px 10px 10px;')
           .card-panel.valign-wrapper(style='height: 100%;')
             .center-align#state State: #{state}

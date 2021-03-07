@@ -10,6 +10,7 @@ var config = {
         }]
     },
     options: {
+        maintainAspectRatio: false,
         legend: {
             display: false
         },
