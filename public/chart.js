@@ -4,7 +4,7 @@ var config = {
         datasets: [{
             data: [],
             backgroundColor: 'rgba(24,84,100, 0.1)',
-            borderColor: '#185464',
+            borderColor: 'rgba(24,84,100, 0.8)',
             fill: true,
             lineTension: 0.15
         }]
