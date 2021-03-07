@@ -46,6 +46,14 @@ button {
   margin: auto;
 }
 
-button:hover {
-  background-color: #52bbaf;
+button:focus {
+  background-color: #185464;
+}
+
+button:active{
+  background-color: #134350; 
+}
+
+button:disabled{
+  background-color: #4a8192;
 }
