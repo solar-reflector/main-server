@@ -57,6 +57,14 @@ function startWebsocket() {
 
         if (json.hasOwnProperty('survivalSpeed')) {
             document.getElementById('survivalSpeed').innerHTML = `Survival Speed: ${json.survivalSpeed} km/h`
+            if(json.survivalSpeed <= 10) {
+                decrease.disabled = true
+            } else if (json.survivalSpeed >= 80) {
+                increase.disabled = true
+            } else {
+                decrease.disabled = false
+                increase.disabled = false
+            }
         }
 
         if (json.hasOwnProperty('powerOn')) {

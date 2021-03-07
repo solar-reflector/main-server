@@ -9,6 +9,8 @@ body {
 
 h6 {
   font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 a {
@@ -19,18 +21,7 @@ a {
   background-color: #185464;
 }
 
-.container {
-  width: 85%;
-  height: 450px;
-  margin-top: 50px;
-  padding: 15px;
-  border-radius: 5px;
-  background-color: #ffffff;
-  border: 0px;
-}
-
 .card-panel {
-  padding: 15px;
   border-radius: 5px;
   margin: 0px;
 }
@@ -45,9 +36,18 @@ button {
   margin: auto;
 }
 
-button:hover {
-  background-color: #134350;
+button:focus {
+  background-color: #185464;
 }
+
+button:active{
+  background-color: #134350; 
+}
+
+button:disabled{
+  background-color: #4a8192;
+}
+
 
 .center-align {
   width: 100%;
