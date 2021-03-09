@@ -6,28 +6,28 @@ const firebaseConfig = {
 }
 
 const logout = document.querySelector('#logout')
-logout.addEventListener('click', event => {
+logout.addEventListener('click', () => {
     firebase.auth().signOut()
 })
 
 const increase = document.querySelector('#increase')
-increase.addEventListener('click', event => {
+increase.addEventListener('click', () => {
     ws.send(JSON.stringify({ topic: 'survivalSpeed', value: 'increase' }))
 })
 
 const decrease = document.querySelector('#decrease')
-decrease.addEventListener('click', event => {
+decrease.addEventListener('click', () => {
     ws.send(JSON.stringify({ topic: 'survivalSpeed', value: 'decrease' }))
 })
 
 const tracking = document.querySelector('#tracking')
-tracking.addEventListener('click', event => {
+tracking.addEventListener('click', () => {
     ws.send(JSON.stringify({ topic: 'trackingMode' }))
 })
 
 const power = document.querySelector('#power')
-power.addEventListener('click', event => {
-    ws.send(JSON.stringify({ topic: 'onOffClicked' }))
+power.addEventListener('click', () => {
+    ws.send(JSON.stringify({ topic: 'power' }))
 })
 
 function startWebsocket() {
@@ -55,11 +55,15 @@ function startWebsocket() {
             document.getElementById("icon").src = imgUrl
         }
 
+        if (json.hasOwnProperty('windSpeed')) {
+            document.getElementById("windSpeed").innerHTML = 'Wind Speed: ' + json.windSpeed + ' km/h'
+        }
+
         if (json.hasOwnProperty('survivalSpeed')) {
             document.getElementById('survivalSpeed').innerHTML = `Survival Speed: ${json.survivalSpeed} km/h`
-            if(json.survivalSpeed <= 10) {
+            if (json.survivalSpeed <= 10) {
                 decrease.disabled = true
-            } else if (json.survivalSpeed >= 80) {
+            } else if (json.survivalSpeed >= 70) {
                 increase.disabled = true
             } else {
                 decrease.disabled = false

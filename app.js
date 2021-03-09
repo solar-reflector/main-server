@@ -75,7 +75,7 @@ wss.on('connection', function connection(ws, req) {
           console.log("FRDM-K64F connected.")
           break
 
-        case "onOffClicked":
+        case "power":
           data.powerOn = !data.powerOn
           if (FRDM) {
             FRDM.send('{"topic":"ON/OFF"}')
@@ -85,7 +85,7 @@ wss.on('connection', function connection(ws, req) {
           break
 
         case 'survivalSpeed':
-          if (json.value == 'increase' & data.survivalSpeed < 80) {
+          if (json.value == 'increase' & data.survivalSpeed < 70) {
             data.survivalSpeed++
           } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
             data.survivalSpeed--
@@ -98,6 +98,11 @@ wss.on('connection', function connection(ws, req) {
           data.activeTracking = !data.activeTracking
           broadcast(JSON.stringify({ activeTracking: data.activeTracking }))
           updateDB({ activeTracking: data.activeTracking })
+          break
+
+        case 'windSpeed':
+          data.windSpeed = json.windSpeed;
+          broadcast(JSON.stringify({ windSpeed: data.windSpeed }))
           break
 
         case 'update':
