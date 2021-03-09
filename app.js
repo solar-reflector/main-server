@@ -19,7 +19,6 @@ admin.initializeApp({
 })
 
 var FRDM = null
-
 var data = {
   state: 'Normal Operation',
   powerOn: false,
