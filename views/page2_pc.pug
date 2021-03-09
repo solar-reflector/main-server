@@ -15,7 +15,7 @@ html
           .chart-container(style='width: 100%; height: 100%;')
             canvas#canvas
       .row(style='height: 200px; width: 100%; margin: 0px')
-        .col.s12.l4(style='height: 100%; padding: 5px;')
+        .col.s6.l4(style='height: 100%; padding: 5px;')
           .card-panel(style='height: 100%;')
             .row.valign-wrapper(style='margin: 0px;')
               .col.s8(style='padding: 0px;')
@@ -27,12 +27,16 @@ html
               .col.s4.center-align(style='padding: 0px;')
                 img#icon(src=weatherData.imgUrl style='height: 100px; width: 100px;')
                 h6#temp(style='margin: 0px') #{weatherData.temp}
-        .col.s12.l4(style='height: 100%; padding: 0px;')
+        .col.s6.l4(style='height: 100%; padding: 0px;')
+          div(style='height: 50%; padding: 5px;')
+            .card-panel.valign-wrapper(style='height: 100%;')
+              .center-align#state State: #{state}
           div(style='height: 50%; padding: 5px;')
             .card-panel.valign-wrapper(style='height: 100%;')
               .center-align
                 a(style='margin-right: 10px;') Tracking Mode:
-                button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
+                button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}        
+        .col.s12.l4(style='height: 100%; padding: 0px;')
           div(style='height: 50%; padding: 5px;')
             .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
               .col.s3.l2.right-align(style='padding: 0px;')
@@ -41,10 +45,6 @@ html
                 #survivalSpeed Survival Speed: #{survivalSpeed} km/h
               .col.s3.l2.left-align(style='padding: 0px;')
                 button#increase(style='font-weight: bold; width: 38px;') +
-        .col.s12.l4(style='height: 100%; padding: 0px;')
-          div(style='height: 50%; padding: 5px;')
-            .card-panel.valign-wrapper(style='height: 100%;')
-              .center-align#state State: #{state}
           div(style='height: 50%; padding: 5px;')
             .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
               .col.s6.center-align(style='padding: 0px;')
