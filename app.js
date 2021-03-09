@@ -7,7 +7,7 @@ const app = express()
 const http = require('http')
 const Weather = require('./weatherData')
 const admin = require("firebase-admin")
-const serviceAccount = require("./.accountKey")
+const serviceAccount = require("./accountKey")
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initialize 
