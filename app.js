@@ -34,6 +34,8 @@ var data = {
   }
 }
 
+const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
+
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
 app.use(express.static(path.join(__dirname, 'public')))
@@ -67,38 +69,25 @@ wss.on('connection', function connection(ws, req) {
     if (json.hasOwnProperty('windSpeed')) {
       data.windSpeed = json.windSpeed
       broadcast(JSON.stringify({ windSpeed: data.windSpeed }))
+      updateDB({ windSpeed: data.windSpeed })
     }
 
     if (json.hasOwnProperty('survivalSpeed')) {
       data.survivalSpeed = json.survivalSpeed
-      broadcast(JSON.stringify({ survivalSpeed: data.windSpeed }))
+      broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+      updateDB({ survivalSpeed: data.survivalSpeed })
     }
 
     if (json.hasOwnProperty('state')) {
-      switch (json.state) {
-        case 0:
-          data.state = "Initialization"
-          break
-        case 1:
-          data.state = "Normal Operation"
-          break
-        case 2:
-          data.state = "Wind Survival"
-          break
-        case 3:
-        case 4:
-          data.state = "Manual Mode"
-          break
-        case 5:
-          data.state = "Wind Settings"
-          break
-      }
+      data.state = states[json.state]
       broadcast(JSON.stringify({ state: json.state }))
+      updateDB({ state: json.state })
     }
 
     if (json.hasOwnProperty('activeTracking')) {
       data.activeTracking = json.activeTracking
       broadcast(JSON.stringify({ activeTracking: json.activeTracking }))
+      updateDB({ activeTracking: json.activeTracking })
     }
 
     if (json.hasOwnProperty('topic')) {
@@ -154,6 +143,7 @@ function broadcastAll(message) {
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients (Except FRDM)
 function broadcast(message) {
+  console.log(message)
   wss.clients.forEach(function each(client) {
     if (client !== FRDM && client.readyState === WebSocket.OPEN) {
       client.send(message)
