@@ -80,8 +80,8 @@ wss.on('connection', function connection(ws, req) {
 
     if (json.hasOwnProperty('state')) {
       data.state = states[json.state]
-      broadcast(JSON.stringify({ state: json.state }))
-      updateDB({ state: json.state })
+      broadcast(JSON.stringify({ state: data.state }))
+      updateDB({ state: data.state })
     }
 
     if (json.hasOwnProperty('activeTracking')) {
