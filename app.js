@@ -69,6 +69,11 @@ wss.on('connection', function connection(ws, req) {
       broadcast(JSON.stringify({ windSpeed: data.windSpeed }))
     }
 
+    if (json.hasOwnProperty('survivalSpeed')) {
+      data.survivalSpeed = json.survivalSpeed
+      broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+    }
+
     if (json.hasOwnProperty('state')) {
       data.powerOn = json.powerOn
       broadcast(JSON.stringify({ powerOn: json.powerOn }))
