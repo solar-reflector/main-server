@@ -71,12 +71,29 @@ wss.on('connection', function connection(ws, req) {
 
     if (json.hasOwnProperty('survivalSpeed')) {
       data.survivalSpeed = json.survivalSpeed
-      broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
+      broadcast(JSON.stringify({ survivalSpeed: data.windSpeed }))
     }
 
     if (json.hasOwnProperty('state')) {
-      data.powerOn = json.powerOn
-      broadcast(JSON.stringify({ powerOn: json.powerOn }))
+      switch (json.state) {
+        case 0:
+          data.state = "Initialization"
+          break
+        case 1:
+          data.state = "Normal Operation"
+          break
+        case 2:
+          data.state = "Wind Survival"
+          break
+        case 3:
+        case 4:
+          data.state = "Manual Mode"
+          break
+        case 5:
+          data.state = "Wind Settings"
+          break
+      }
+      broadcast(JSON.stringify({ state: json.state }))
     }
 
     if (json.hasOwnProperty('activeTracking')) {
