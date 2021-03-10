@@ -22,8 +22,8 @@ html
           h6#sunset Sunset: #{weatherData.sunset}
         img#icon.col.s4(src=weatherData.imgUrl)
         h6#temp.center-align #{weatherData.temp}
-      #state.card-panel.valign-wrapper
-        .center-align(style="width: 100%;") State: #{state}
+      .card-panel.valign-wrapper
+        .center-align#state(style="width: 100%;") State: #{state}
       .card-panel.row.valign-wrapper
         .col.s2.center-align
           button#decrease(style='font-weight: bold;') -
