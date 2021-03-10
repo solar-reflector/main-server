@@ -62,17 +62,27 @@ wss.on('connection', function connection(ws, req) {
   ws.on('message', function incoming(message) {
 
     var json = JSON.parse(message)
+    console.log(json)
+
+    if (json.hasOwnProperty('windSpeed')) {
+      data.windSpeed = json.windSpeed
+      broadcast(JSON.stringify({ windSpeed: data.windSpeed }))
+    }
+
+    if (json.hasOwnProperty('state')) {
+      data.powerOn = json.powerOn
+      broadcast(JSON.stringify({ powerOn: json.powerOn }))
+    }
+
+    if (json.hasOwnProperty('activeTracking')) {
+      data.activeTracking = json.activeTracking
+      broadcast(JSON.stringify({ activeTracking: json.activeTracking }))
+    }
 
     if (json.hasOwnProperty('topic')) {
       switch (json.topic) {
         case "FRDM":
           FRDM = ws
-
-          if (json.hasOwnProperty('data')) {
-            for (key in doc.data) {
-              data[key] = doc.data[key]
-            }
-          }
           console.log("FRDM-K64F connected.")
           break
 
@@ -101,21 +111,11 @@ wss.on('connection', function connection(ws, req) {
           updateDB({ activeTracking: data.activeTracking })
           break
 
-        case 'windSpeed':
-          data.windSpeed = json.windSpeed;
-          broadcast(JSON.stringify({ windSpeed: data.windSpeed }))
-          break
-
         case 'update':
           ws.send(JSON.stringify(data))
           break
       }
     }
-    // json.hasOwnProperty('state') && (data.powerOn = json.powerOn)
-    // json.hasOwnProperty('powerOn') && (data.powerOn = json.powerOn)
-    // json.hasOwnProperty('windSpeed') && (data.windSpeed = json.windSpeed)
-    // json.hasOwnProperty('survivalSpeed') && (data.survivalSpeed = json.survivalSpeed)
-    // json.hasOwnProperty('activeTracking') && (data.activeTracking = json.activeTracking)
   })
 })
 
