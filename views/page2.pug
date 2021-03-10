@@ -5,40 +5,43 @@ html
     meta(name='viewport' content='width=device-width, initial-scale=0.8, user-scalable=0')
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css')
     link(rel='stylesheet' type='text/css' href='page2.css')
-    link(rel="shortcut icon", href="#")
-  nav
-    .nav-wrapper.truncate
-      a.brand-logo.center(style='font-weight: bold; font-size: 20px;') SOLAR REFLECTOR
-  .container
-    .card-panel.row
-      .col.s8
-        h6#location Fredericton, NB
-        h6#windSpeed Wind Speed: #{windSpeed} km/h
-        h6#snowfall Next Snowfall: #{weatherData.snowDay}
-        h6#sunrise Sunrise: #{weatherData.sunrise}
-        h6#sunset Sunset: #{weatherData.sunset}
-      img#icon.col.s4(src=weatherData.imgUrl)
-      h6#temp.center-align #{weatherData.temp}
-    #state.card-panel.valign-wrapper
-      .center-align(style="width: 100%;") State: #{state}
-    .card-panel.row.valign-wrapper
-      .col.s2.center-align
-        button#decrease(style='font-weight: bold;') -
-      .col.s8.center-align
-        #survivalSpeed Survival Speed: #{survivalSpeed} km/h
-      .col.s2.center-align
-        button#increase(style='font-weight: bold;') +
-    .card-panel.valign-wrapper
-      .center-align(style="width: 100%;")
-        a(style='margin-right: 10px;') Tracking Mode:
-        button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
-    .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
-      .col.s6.center-align(style='padding: 0px;')
-        button#logout(style='width: 120px;') Logout
-      .col.s6.center-align(style='padding: 0px;')
-        button#power(style='width: 120px;') #{powerOn ? 'Turn Off' : 'Turn On'}
-  script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
-  script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
-  script(src='page2.js')
+    link(rel='apple-touch-icon' sizes='180x180' href='images/apple-touch-icon.png')
+    link(rel='shortcut icon' type='image/ico' sizes='16x16' href='images/favicon.ico')
+    link(rel='mask-icon' href='images/safari-pinned-tab.svg' color='#185464')
+  body  
+    nav
+      .nav-wrapper.truncate
+        a.brand-logo.center(style='font-weight: bold; font-size: 20px;') SOLAR REFLECTOR
+    .container
+      .card-panel.row
+        .col.s8
+          h6#location Fredericton, NB
+          h6#windSpeed Wind Speed: #{windSpeed} km/h
+          h6#snowfall Next Snowfall: #{weatherData.snowDay}
+          h6#sunrise Sunrise: #{weatherData.sunrise}
+          h6#sunset Sunset: #{weatherData.sunset}
+        img#icon.col.s4(src=weatherData.imgUrl)
+        h6#temp.center-align #{weatherData.temp}
+      #state.card-panel.valign-wrapper
+        .center-align(style="width: 100%;") State: #{state}
+      .card-panel.row.valign-wrapper
+        .col.s2.center-align
+          button#decrease(style='font-weight: bold;') -
+        .col.s8.center-align
+          #survivalSpeed Survival Speed: #{survivalSpeed} km/h
+        .col.s2.center-align
+          button#increase(style='font-weight: bold;') +
+      .card-panel.valign-wrapper
+        .center-align(style="width: 100%;")
+          a(style='margin-right: 10px;') Tracking Mode:
+          button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
+      .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
+        .col.s6.center-align(style='padding: 0px;')
+          button#logout(style='width: 120px;') Logout
+        .col.s6.center-align(style='padding: 0px;')
+          button#power(style='width: 120px;') #{powerOn ? 'Turn Off' : 'Turn On'}
+    script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
+    script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
+    script(src='page2.js')
 
   
