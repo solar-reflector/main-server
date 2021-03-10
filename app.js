@@ -64,7 +64,7 @@ wss.on('connection', function connection(ws, req) {
   ws.on('message', function incoming(message) {
 
     var json = JSON.parse(message)
-    console.log(json)
+    console.log('WebSocket message:', JSON.stringify(json))
 
     if (json.hasOwnProperty('windSpeed')) {
       data.windSpeed = json.windSpeed
@@ -99,9 +99,6 @@ wss.on('connection', function connection(ws, req) {
 
         case "power":
           data.powerOn = !data.powerOn
-          if (FRDM) {
-            FRDM.send('{"topic":"ON/OFF"}')
-          }
           broadcast(JSON.stringify({ powerOn: data.powerOn }))
           updateDB({ powerOn: data.powerOn })
           break
@@ -143,7 +140,6 @@ function broadcastAll(message) {
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients (Except FRDM)
 function broadcast(message) {
-  console.log(message)
   wss.clients.forEach(function each(client) {
     if (client !== FRDM && client.readyState === WebSocket.OPEN) {
       client.send(message)
