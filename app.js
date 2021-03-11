@@ -156,7 +156,7 @@ async function updateWeather() {
   broadcast({ weatherData: data.weatherData })
 }
 updateWeather()
-setInterval(() => { updateWeather() }, 60000)
+setInterval(() => { updateWeather() }, 300000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Database functions (Read/Write)
