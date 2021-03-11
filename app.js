@@ -33,7 +33,6 @@ var data = {
     snowDay: 'day'
   }
 }
-
 const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -63,31 +62,27 @@ wss.on('connection', function connection(ws, req) {
 
   ws.on('message', function incoming(message) {
 
-    var json = JSON.parse(message)
-    console.log('WebSocket message:', JSON.stringify(json))
+    const json = JSON.parse(message)
+    console.log('WebSocket message:', json)
 
     if (json.hasOwnProperty('windSpeed')) {
       data.windSpeed = json.windSpeed
-      broadcast(JSON.stringify({ windSpeed: data.windSpeed }))
-      updateDB({ windSpeed: data.windSpeed })
+      broadcast({ windSpeed: data.windSpeed }, true)
     }
 
     if (json.hasOwnProperty('survivalSpeed')) {
       data.survivalSpeed = json.survivalSpeed
-      broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
-      updateDB({ survivalSpeed: data.survivalSpeed })
+      broadcast({ survivalSpeed: data.survivalSpeed }, true)
     }
 
     if (json.hasOwnProperty('state')) {
       data.state = states[json.state]
-      broadcast(JSON.stringify({ state: data.state }))
-      updateDB({ state: data.state })
+      broadcast({ state: data.state }, true)
     }
 
     if (json.hasOwnProperty('activeTracking')) {
       data.activeTracking = json.activeTracking
-      broadcast(JSON.stringify({ activeTracking: json.activeTracking }))
-      updateDB({ activeTracking: json.activeTracking })
+      broadcast({ activeTracking: json.activeTracking }, true)
     }
 
     if (json.hasOwnProperty('topic')) {
@@ -99,8 +94,7 @@ wss.on('connection', function connection(ws, req) {
 
         case "power":
           data.powerOn = !data.powerOn
-          broadcast(JSON.stringify({ powerOn: data.powerOn }))
-          updateDB({ powerOn: data.powerOn })
+          broadcastAll({ powerOn: data.powerOn }, true)
           break
 
         case 'survivalSpeed':
@@ -109,14 +103,12 @@ wss.on('connection', function connection(ws, req) {
           } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
             data.survivalSpeed--
           }
-          broadcast(JSON.stringify({ survivalSpeed: data.survivalSpeed }))
-          updateDB({ survivalSpeed: data.survivalSpeed })
+          broadcastAll({ survivalSpeed: data.survivalSpeed }, true)
           break
 
         case 'trackingMode':
           data.activeTracking = !data.activeTracking
-          broadcast(JSON.stringify({ activeTracking: data.activeTracking }))
-          updateDB({ activeTracking: data.activeTracking })
+          broadcastAll({ activeTracking: data.activeTracking }, true)
           break
 
         case 'update':
@@ -129,22 +121,24 @@ wss.on('connection', function connection(ws, req) {
 
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients
-function broadcastAll(message) {
+function broadcastAll(message, update = false) {
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(message)
+      client.send(JSON.stringify(message))
     }
   })
+  if (update) updateDB(message)
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients (Except FRDM)
-function broadcast(message) {
+function broadcast(message, update = false) {
   wss.clients.forEach(function each(client) {
     if (client !== FRDM && client.readyState === WebSocket.OPEN) {
-      client.send(message)
+      client.send(JSON.stringify(message))
     }
   })
+  if (update) updateDB(message)
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -159,7 +153,7 @@ setInterval(() => {
 // WeatherData function
 async function updateWeather() {
   data.weatherData = await Weather.getWeather()
-  broadcast(JSON.stringify({ weatherData: data.weatherData }))
+  broadcast({ weatherData: data.weatherData })
 }
 updateWeather()
 setInterval(() => { updateWeather() }, 60000)
