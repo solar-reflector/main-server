@@ -52,6 +52,23 @@ app.get('/pc', (req, res) => {
   res.render('page2_pc', data)
 })
 
+app.get('/solar_api/v1/GetInverterRealtimeData.cgi', (req, res) => {
+  console.log('Inverter data accessed')
+  res.send(JSON.stringify({
+    Body: {
+      Data: {
+        DeviceStatus: {
+          InverterState: 'Running'
+        },
+        PAC: {
+          Unit: 'W',
+          Value: 165
+        }
+      }
+    }
+  }))
+})
+
 ///////////////////////////////////////////////////////////////////////////////
 // Handle WebSocket connections & messages
 wss.on('connection', function connection(ws, req) {
