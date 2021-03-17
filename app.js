@@ -34,7 +34,7 @@ var data = {
   }
 }
 const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
-
+var inverterPower = 0;
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
 app.use(express.static(path.join(__dirname, 'public')))
@@ -52,6 +52,10 @@ app.get('/pc', (req, res) => {
   res.render('page2_pc', data)
 })
 
+app.get('/inverter', (req, res) => {
+  res.sendFile(__dirname + '/public/slider.html')
+})
+
 app.get('/solar_api/v1/GetInverterRealtimeData.cgi', (req, res) => {
   console.log('Inverter data accessed')
   res.send(JSON.stringify({
@@ -62,7 +66,7 @@ app.get('/solar_api/v1/GetInverterRealtimeData.cgi', (req, res) => {
         },
         PAC: {
           Unit: 'W',
-          Value: 165
+          Value: inverterPower
         }
       }
     }
@@ -81,6 +85,10 @@ wss.on('connection', function connection(ws, req) {
 
     const json = JSON.parse(message)
     console.log('WebSocket message:', json)
+
+    if (json.hasOwnProperty('inverterPower')) {
+      inverterPower = json.inverterPower
+    }
 
     if (json.hasOwnProperty('windSpeed')) {
       data.windSpeed = json.windSpeed
