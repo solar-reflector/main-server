@@ -28,8 +28,8 @@
 
         const button = document.querySelector('#button')
         button.addEventListener('click', () => {
-            ws.send(JSON.stringify({ inverterPower: slider.value }))
-            console.log({ inverterPower: slider.value })
+            ws.send(JSON.stringify({ inverterPower: Number(slider.value) }))
+            console.log({ inverterPower: Number(slider.value) })
         })
     </script>
 </body>
