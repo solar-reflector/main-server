@@ -17,7 +17,7 @@ async function getWeather() {
     var temp = (json.current.temp).toFixed(1) + "\u00B0C";
 
     // Get sunrise/sunset
-    var sunrise = new Date(json.current.sunrise * 1000 - 4 * 60 * 60 * 1000);
+    var sunrise = new Date(json.current.sunrise * 1000 - 3 * 60 * 60 * 1000);
     var hours = sunrise.getHours();
     var minutes = "0" + sunrise.getMinutes();
     sunrise = hours + ":" + minutes.substr(-2) + " AM";
