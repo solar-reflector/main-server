@@ -124,11 +124,11 @@ wss.on('connection', function connection(ws, req) {
 
         case 'survivalSpeed':
           if (json.value == 'increase' & data.survivalSpeed < 70) {
-            data.survivalSpeed = data.survivalSpeed + 5;
+            data.survivalSpeed = data.survivalSpeed + 5
           } else if (json.value == 'decrease' & data.survivalSpeed > 30) {
-            data.survivalSpeed = data.survivalSpeed - 5;
+            data.survivalSpeed = data.survivalSpeed - 5
           }
-          data.survivalSpeed = Math.round(data.survivalSpeed / 5) * 5;
+          data.survivalSpeed = Math.round(data.survivalSpeed / 5) * 5
           broadcastAll({ survivalSpeed: data.survivalSpeed }, true)
           break
 
