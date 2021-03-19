@@ -1,15 +1,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Import Libraries
-const WebSocket = require('ws')
-const express = require('express')
-const app = express()
-const http = require('http')
+const serviceAccount = require("./accountKey")
 const Weather = require('./weatherData')
 const admin = require("firebase-admin")
-const serviceAccount = require("./accountKey")
+const express = require('express')
+const WebSocket = require('ws')
+const http = require('http')
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initialize 
+const app = express()
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
@@ -17,7 +17,10 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 })
 
+///////////////////////////////////////////////////////////////////////////////
+// Variables 
 var FRDM = null
+var inverterPower = 0;
 var data = {
   state: 'Normal Operation',
   powerOn: false,
@@ -33,7 +36,6 @@ var data = {
   }
 }
 const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
-var inverterPower = 0;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
