@@ -34,9 +34,10 @@ var data = {
 }
 const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
 var inverterPower = 0;
+
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '\\public'))
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
