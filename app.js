@@ -2,7 +2,6 @@
 // Import Libraries
 const WebSocket = require('ws')
 const express = require('express')
-const path = require('path')
 const app = express()
 const http = require('http')
 const Weather = require('./weatherData')
@@ -37,7 +36,7 @@ const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual M
 var inverterPower = 0;
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static('public'))
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
