@@ -39,7 +39,7 @@ const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual M
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
-app.use(express.static(__dirname + '\\public'))
+app.use(express.static(__dirname + '/public'))
 app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
