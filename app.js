@@ -150,8 +150,9 @@ wss.on('connection', function connection(ws, req) {
           break
 
         case 'getSunPosition':
-          getSunPosition()
-          FRDM.send(JSON.stringify(sunData))
+          getSunPosition().then(angle=>{
+            FRDM.send(JSON.stringify(angle))
+          })
           break
       }
     }
@@ -194,14 +195,12 @@ async function updateWeather() {
   data.weatherData = await Weather.getWeather()
   broadcast({ weatherData: data.weatherData })
 }
-updateWeather()
 setInterval(() => { updateWeather() }, 300000)
 
 ///////////////////////////////////////////////////////////////////////////////
 // sunPosition function
 async function getSunPosition() {
-  sunData = await SunPos.getPosition()
-  console.log(sunData)
+  return SunPos.getPosition()
 }
 //setInterval(() => { getSunPosition() }, 1000)
 
