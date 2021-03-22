@@ -22,7 +22,6 @@ async function getPosition() {
     console.error(error);
   }
 
-  console.log(result);
   return (result);
 
 }

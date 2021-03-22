@@ -144,8 +144,10 @@ wss.on('connection', function connection(ws, req) {
         case 'update':
           ws.send(JSON.stringify(data))
           break
+
         case 'getSunPosition':
-          FRDM.send(getSunPosition())
+          FRDM.send(JSON.stringify(await getSunPosition()))
+          break
       }
     }
   })
@@ -195,7 +197,7 @@ setInterval(() => { updateWeather() }, 300000)
 async function getSunPosition() {
   console.log(await SunPos.getPosition())
 }
-//setInterval(() => { getSunPosition() }, 1000)
+setInterval(() => { getSunPosition() }, 1000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Database functions (Read/Write)
