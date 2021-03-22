@@ -16,7 +16,23 @@ async function getPosition() {
     // Get Azimuth
     var azimuth = json.sun_azimuth;
 
-    result = { altitude: altitude, azimuth: azimuth };
+    // Calculate sun angle for panel
+    var angle = 0;
+    var denom = 0;
+
+    if (azimuth < 90.0) {
+      denom = 90 - azimuth;
+    } else if (azimuth < 180.0) {
+      denom = azimuth - 90;
+    } else if (azimuth < 270.0) {
+      denom = 270 - azimuth;
+    } else {
+      denom = azimuth - 270;
+    }
+
+    angle = Math.atan( Math.tan(altitude*Math.PI/180) / Math.cos(denom*Math.PI/180) ) * 180/Math.PI;
+
+    result = { angle: angle };
 
   } catch (error) {
     console.error(error);
