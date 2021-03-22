@@ -35,10 +35,11 @@ var data = {
     sunset: 'date',
     snowDay: 'day'
   }
+}
+
 sunData = {
   altitude: 0,
   azimuth: 0
-}
 }
 
 const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
