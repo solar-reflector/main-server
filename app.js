@@ -35,6 +35,10 @@ var data = {
     sunset: 'date',
     snowDay: 'day'
   }
+sunData = {
+  altitude: 0,
+  azimuth: 0
+}
 }
 
 const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
@@ -146,7 +150,8 @@ wss.on('connection', function connection(ws, req) {
           break
 
         case 'getSunPosition':
-          FRDM.send(JSON.stringify(getSunPosition()))
+          getSunPosition()
+          FRDM.send(JSON.stringify(sunData))
           break
       }
     }
@@ -195,7 +200,8 @@ setInterval(() => { updateWeather() }, 300000)
 ///////////////////////////////////////////////////////////////////////////////
 // sunPosition function
 async function getSunPosition() {
-  console.log(await SunPos.getPosition())
+  sunData = await SunPos.getPosition()
+  console.log(sunData)
 }
 //setInterval(() => { getSunPosition() }, 1000)
 
