@@ -197,7 +197,7 @@ setInterval(() => { updateWeather() }, 300000)
 async function getSunPosition() {
   console.log(await SunPos.getPosition())
 }
-setInterval(() => { getSunPosition() }, 1000)
+//setInterval(() => { getSunPosition() }, 1000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Database functions (Read/Write)
