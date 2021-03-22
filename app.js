@@ -2,13 +2,14 @@
 // Import Libraries
 const serviceAccount = require("./accountKey")
 const Weather = require('./weatherData')
+const SunPos = require('./sunPosition')
 const admin = require("firebase-admin")
 const express = require('express')
 const WebSocket = require('ws')
 const http = require('http')
 
 ///////////////////////////////////////////////////////////////////////////////
-// Initialize 
+// Initialize
 const app = express()
 const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
@@ -18,7 +19,7 @@ admin.initializeApp({
 })
 
 ///////////////////////////////////////////////////////////////////////////////
-// Variables 
+// Variables
 var FRDM = null
 var inverterPower = 0;
 var data = {
@@ -35,6 +36,7 @@ var data = {
     snowDay: 'day'
   }
 }
+
 const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -142,6 +144,8 @@ wss.on('connection', function connection(ws, req) {
         case 'update':
           ws.send(JSON.stringify(data))
           break
+        case 'getSunPosition':
+          FRDM.send(getSunPosition())
       }
     }
   })
@@ -185,6 +189,13 @@ async function updateWeather() {
 }
 updateWeather()
 setInterval(() => { updateWeather() }, 300000)
+
+///////////////////////////////////////////////////////////////////////////////
+// sunPosition function
+async function getSunPosition() {
+  console.log(await SunPos.getPosition())
+}
+//setInterval(() => { getSunPosition() }, 1000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Database functions (Read/Write)
