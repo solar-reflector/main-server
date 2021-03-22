@@ -146,7 +146,7 @@ wss.on('connection', function connection(ws, req) {
           break
 
         case 'getSunPosition':
-          FRDM.send(JSON.stringify(await getSunPosition()))
+          FRDM.send(JSON.stringify(getSunPosition()))
           break
       }
     }
