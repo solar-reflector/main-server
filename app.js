@@ -37,11 +37,16 @@ var data = {
   }
 }
 
-var sunData = {
-  angle: 0
+const states = {
+  1: 'Normal Operation',
+  2: 'Wind Survival',
+  3: 'Manual Mode',
+  4: 'Manual Mode',
+  5: 'Wind Settings',
+  9: 'Overheat',
+  10: 'Overheat Main',
+  11: 'Sleep Mode'
 }
-
-const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings', 'Overheat', 'Sleep']
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
@@ -109,7 +114,7 @@ wss.on('connection', function connection(ws, req) {
     }
 
     if (json.hasOwnProperty('state')) {
-      data.state = states[json.state]
+      data.state = states[json.state] || states[0]
       broadcast({ state: data.state }, true)
     }
 
