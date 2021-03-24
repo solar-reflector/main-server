@@ -41,7 +41,7 @@ var sunData = {
   angle: 0
 }
 
-const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings']
+const states = ['Initialization', 'Normal Operation', 'Wind Survival', 'Manual Mode', 'Manual Mode', 'Wind Settings', 'Overheat', 'Sleep']
 
 ///////////////////////////////////////////////////////////////////////////////
 // Directories
@@ -133,7 +133,7 @@ wss.on('connection', function connection(ws, req) {
         case 'survivalSpeed':
           if (json.value == 'increase' & data.survivalSpeed < 70) {
             data.survivalSpeed = data.survivalSpeed + 5
-          } else if (json.value == 'decrease' & data.survivalSpeed > 30) {
+          } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
             data.survivalSpeed = data.survivalSpeed - 5
           }
           data.survivalSpeed = Math.round(data.survivalSpeed / 5) * 5
@@ -150,7 +150,7 @@ wss.on('connection', function connection(ws, req) {
           break
 
         case 'getSunPosition':
-          SunPos.getPosition().then(angle=>{
+          SunPos.getPosition().then(angle => {
             FRDM.send(JSON.stringify(angle))
           })
           break
