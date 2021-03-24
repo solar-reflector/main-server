@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Inverter Power
+  div(style='width: 100%; text-align: center; padding: 20 0 20 0;')
+    input#slider(type='range' min='0' max='330' value='165' style='width: 50%;')
+  div(style='width: 100%; text-align: center;')
+    button#button(style='width: 120px; height: 38px; background-color: #185464; color: white; border-radius: 3px; border: none; padding: 0px; margin: auto;') Send: 165
+  script.
+    const ws = new WebSocket(location.origin.replace(/^http/, 'ws'))
+    ws.onopen = () => {
+    console.log("Websocket started")
+    }
+    const slider = document.querySelector('#slider')
+    slider.addEventListener('input', (event) => {
+    button.innerHTML = `Send: ${slider.value}`
+    })
+    const button = document.querySelector('#button')
+    button.addEventListener('click', () => {
+    ws.send(JSON.stringify({ inverterPower: Number(slider.value) }))
+    console.log({ inverterPower: Number(slider.value) })
+    })

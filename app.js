@@ -61,16 +61,15 @@ app.get('/login', (req, res) => {
   res.render('page1')
 })
 
-app.get('/pc', (req, res) => {
+app.get('/graph', (req, res) => {
   res.render('page2_pc', data)
 })
 
 app.get('/inverter', (req, res) => {
-  res.sendFile(__dirname + '/public/slider.html')
+  res.render('inverter')
 })
 
 app.get('/solar_api/v1/GetInverterRealtimeData.cgi', (req, res) => {
-  console.log('Inverter data accessed')
   res.send(JSON.stringify({
     Body: {
       Data: {
@@ -196,14 +195,13 @@ setInterval(() => {
 
 //////////////////////////////////////////////////////////////////////////////
 // WeatherData function
-async function updateWeather() {
-  data.weatherData = await Weather.getWeather()
-  broadcast({ weatherData: data.weatherData })
-}
-setInterval(() => { updateWeather() }, 300000)
-
-///////////////////////////////////////////////////////////////////////////////
-// sunPosition function
+Weather.getWeather().then(weatherData => data.weatherData = weatherData)
+setInterval(() => {
+  Weather.getWeather().then(weatherData => {
+    data.weatherData = weatherData
+    broadcast({ weatherData: weatherData })
+  })
+}, 300000)
 
 //////////////////////////////////////////////////////////////////////////////
 // Database functions (Read/Write)
