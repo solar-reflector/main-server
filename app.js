@@ -105,7 +105,7 @@ wss.on('connection', function connection(ws, req) {
 
     if (json.hasOwnProperty('windSpeed')) {
       data.windSpeed = json.windSpeed
-      broadcast({ windSpeed: data.windSpeed }, true)
+      broadcast({ windSpeed: data.windSpeed })
     }
 
     if (json.hasOwnProperty('survivalSpeed')) {
