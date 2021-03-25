@@ -66,11 +66,11 @@ app.get('/graph', (req, res) => {
 })
 
 app.get('/inverter', (req, res) => {
-  console.log('inverter test')
   res.render('inverter')
 })
 
 app.get('/solar_api/v1/GetInverterRealtimeData.cgi', (req, res) => {
+  console.log('inverter test')
   res.send(JSON.stringify({
     Body: {
       Data: {
