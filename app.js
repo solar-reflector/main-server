@@ -177,7 +177,7 @@ function broadcastAll(message, update = false) {
       client.send(JSON.stringify(message))
     }
   })
-  if (update) updateDB(message)
+  // if (update) updateDB(message)
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -188,7 +188,7 @@ function broadcast(message, update = false) {
       client.send(JSON.stringify(message))
     }
   })
-  if (update) updateDB(message)
+  // if (update) updateDB(message)
 }
 
 //////////////////////////////////////////////////////////////////////////////
