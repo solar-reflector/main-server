@@ -122,6 +122,12 @@ wss.on('connection', function connection(ws, req) {
       broadcast({ activeTracking: json.activeTracking }, true)
     }
 
+    if (json.hasOwnProperty('power')) {
+      console.log(json.power)
+      data.powerOn = json.power
+      broadcast({ powerOn: data.powerOn }, true)
+    }
+
     if (json.hasOwnProperty('topic')) {
       switch (json.topic) {
         case "FRDM":
