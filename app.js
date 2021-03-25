@@ -66,6 +66,7 @@ app.get('/graph', (req, res) => {
 })
 
 app.get('/inverter', (req, res) => {
+  console.log('inverter test')
   res.render('inverter')
 })
 
