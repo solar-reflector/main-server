@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Import Libraries
-const serviceAccount = require("./accountKey")
+const accountKey = require('./accountKey')
 const Weather = require('./weatherData')
 const SunPos = require('./sunPosition')
-const admin = require("firebase-admin")
+const admin = require('firebase-admin')
 const express = require('express')
 const WebSocket = require('ws')
 const http = require('http')
@@ -15,27 +15,14 @@ const server = http.createServer(app)
 const wss = new WebSocket.Server({ server })
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(accountKey)
 })
 
 ///////////////////////////////////////////////////////////////////////////////
 // Variables
 var FRDM = null
 var inverterPower = 0;
-var data = {
-  state: 'Normal Operation',
-  power: false,
-  windSpeed: 20,
-  survivalSpeed: 60,
-  activeTracking: true,
-  weatherData: {
-    imgUrl: 'https://openweathermap.org/img/wn/01d@2x.png',
-    temp: '20.0' + "\u00B0C",
-    sunrise: 'date',
-    sunset: 'date',
-    snowDay: 'day'
-  }
-}
+var data = {}
 
 const states = {
   1: 'Normal Operation',
@@ -90,9 +77,10 @@ wss.on('connection', function connection(ws, req) {
   ws.on('close', () => console.log('Client Disconnected.'))
 
   ws.on('message', function incoming(message) {
-    if (isJson(message)) {
-      const json = JSON.parse(message)
-      console.log('WebSocket message:', json)
+    const json = isValidJson(message)
+
+    if (json) {
+      console.log('WebSocket:', json)
 
       if (json.hasOwnProperty('topic')) {
         switch (json.topic) {
@@ -150,13 +138,12 @@ wss.on('connection', function connection(ws, req) {
 
 //////////////////////////////////////////////////////////////////////////////
 // Verify if valid JSON
-function isJson(data) {
+function isValidJson(data) {
   try {
-    JSON.parse(data)
+    return JSON.parse(data)
   } catch (e) {
     return false
   }
-  return true
 }
 
 //////////////////////////////////////////////////////////////////////////////
