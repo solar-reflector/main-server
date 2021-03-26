@@ -24,7 +24,7 @@ var FRDM = null
 var inverterPower = 0;
 var data = {
   state: 'Normal Operation',
-  powerOn: false,
+  power: false,
   windSpeed: 20,
   survivalSpeed: 60,
   activeTracking: true,
@@ -74,13 +74,8 @@ app.get('/solar_api/v1/GetInverterRealtimeData.cgi', (req, res) => {
   res.send(JSON.stringify({
     Body: {
       Data: {
-        DeviceStatus: {
-          InverterState: 'Running'
-        },
-        PAC: {
-          Unit: 'W',
-          Value: inverterPower
-        }
+        DeviceStatus: { InverterState: 'Running' },
+        PAC: { Unit: 'W', Value: inverterPower }
       }
     }
   }))
@@ -95,80 +90,74 @@ wss.on('connection', function connection(ws, req) {
   ws.on('close', () => console.log('Client Disconnected.'))
 
   ws.on('message', function incoming(message) {
+    if (isJson(message)) {
+      const json = JSON.parse(message)
+      console.log('WebSocket message:', json)
 
-    const json = JSON.parse(message)
-    console.log('WebSocket message:', json)
+      if (json.hasOwnProperty('topic')) {
+        switch (json.topic) {
+          case "FRDM":
+            FRDM = ws
+            console.log("FRDM-K64F connected.")
+            break
 
-    if (json.hasOwnProperty('inverterPower')) {
-      inverterPower = json.inverterPower
-    }
+          case "power":
+            data.power = !data.power
+            broadcastAll({ power: data.power }, true)
+            break
 
-    if (json.hasOwnProperty('windSpeed')) {
-      data.windSpeed = json.windSpeed
-      broadcast({ windSpeed: data.windSpeed })
-    }
+          case 'survivalSpeed':
+            if (json.value == 'increase' & data.survivalSpeed < 70) {
+              data.survivalSpeed = data.survivalSpeed + 5
+            } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
+              data.survivalSpeed = data.survivalSpeed - 5
+            }
+            data.survivalSpeed = Math.round(data.survivalSpeed / 5) * 5
+            broadcastAll({ survivalSpeed: data.survivalSpeed }, true)
+            break
 
-    if (json.hasOwnProperty('survivalSpeed')) {
-      data.survivalSpeed = json.survivalSpeed
-      broadcast({ survivalSpeed: data.survivalSpeed }, true)
-    }
+          case 'trackingMode':
+            data.activeTracking = !data.activeTracking
+            broadcastAll({ activeTracking: data.activeTracking }, true)
+            break
 
-    if (json.hasOwnProperty('state')) {
-      data.state = states[json.state] || states[0]
-      broadcast({ state: data.state }, true)
-    }
+          case 'update':
+            ws.send(JSON.stringify(data))
+            break
 
-    if (json.hasOwnProperty('activeTracking')) {
-      data.activeTracking = json.activeTracking
-      broadcast({ activeTracking: json.activeTracking }, true)
-    }
-
-    if (json.hasOwnProperty('power')) {
-      console.log(json.power)
-      data.powerOn = json.power
-      broadcast({ powerOn: data.powerOn }, true)
-    }
-
-    if (json.hasOwnProperty('topic')) {
-      switch (json.topic) {
-        case "FRDM":
-          FRDM = ws
-          console.log("FRDM-K64F connected.")
-          break
-
-        case "power":
-          data.powerOn = !data.powerOn
-          broadcastAll({ powerOn: data.powerOn }, true)
-          break
-
-        case 'survivalSpeed':
-          if (json.value == 'increase' & data.survivalSpeed < 70) {
-            data.survivalSpeed = data.survivalSpeed + 5
-          } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
-            data.survivalSpeed = data.survivalSpeed - 5
+          case 'getSunPosition':
+            SunPos.getPosition().then(angle => {
+              FRDM.send(JSON.stringify(angle))
+            })
+            break
+        }
+      } else {
+        for (key in json) {
+          if (data.hasOwnProperty(key)) {
+            if (key == 'state') {
+              data.state = states[json.state] || states[0]
+              broadcast({ state: data.state })
+            } else {
+              data[key] = json[key]
+              broadcast({ [key]: json[key] })
+            }
           }
-          data.survivalSpeed = Math.round(data.survivalSpeed / 5) * 5
-          broadcastAll({ survivalSpeed: data.survivalSpeed }, true)
-          break
-
-        case 'trackingMode':
-          data.activeTracking = !data.activeTracking
-          broadcastAll({ activeTracking: data.activeTracking }, true)
-          break
-
-        case 'update':
-          ws.send(JSON.stringify(data))
-          break
-
-        case 'getSunPosition':
-          SunPos.getPosition().then(angle => {
-            FRDM.send(JSON.stringify(angle))
-          })
-          break
+        }
       }
     }
   })
 })
+
+//////////////////////////////////////////////////////////////////////////////
+// Verify if valid JSON
+function isJson(data) {
+  try {
+    JSON.parse(data)
+  } catch (e) {
+    return false
+  }
+  return true
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // Broadcast WebSocket message to all clients
@@ -178,7 +167,7 @@ function broadcastAll(message, update = false) {
       client.send(JSON.stringify(message))
     }
   })
-  // if (update) updateDB(message)
+  if (update) updateDB(message)
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -189,7 +178,7 @@ function broadcast(message, update = false) {
       client.send(JSON.stringify(message))
     }
   })
-  // if (update) updateDB(message)
+  if (update) updateDB(message)
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -214,8 +203,8 @@ setInterval(() => {
 // Database functions (Read/Write)
 const deviceRef = admin.firestore().collection('devices').doc('FRDM')
 
-async function updateDB(item) {
-  await deviceRef.update(item)
+function updateDB(item) {
+  deviceRef.update(item)
     .catch(() => console.log('Error upating Firestore.'))
 }
 

@@ -72,8 +72,8 @@ function startWebsocket() {
             }
         }
 
-        if (json.hasOwnProperty('powerOn')) {
-            power.innerHTML = json.powerOn ? 'Turn Off' : 'Turn On'
+        if (json.hasOwnProperty('power')) {
+            power.innerHTML = json.power ? 'Turn Off' : 'Turn On'
         }
 
         if (json.hasOwnProperty('activeTracking')) {
