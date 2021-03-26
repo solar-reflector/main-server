@@ -31,6 +31,7 @@ power.addEventListener('click', () => {
 })
 
 function startWebsocket() {
+    console.log(location.origin.replace(/^http/, 'ws'))
     ws = new WebSocket(location.origin.replace(/^http/, 'ws'))
 
     ws.onopen = () => {
