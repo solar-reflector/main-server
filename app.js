@@ -84,20 +84,26 @@ wss.on('connection', function connection(ws, req) {
 
       if (json.hasOwnProperty('topic')) {
         switch (json.topic) {
-          case "FRDM":
+          case 'FRDM':
             FRDM = ws
-            console.log("FRDM-K64F connected.")
+            console.log('FRDM-K64F connected.')
             break
 
-          case "power":
+          case 'power':
             data.power = !data.power
             broadcastAll({ power: data.power }, true)
             break
 
-          case 'survivalSpeed':
-            if (json.value == 'increase' & data.survivalSpeed < 70) {
+          case 'increase':
+            if (data.survivalSpeed < 70) {
               data.survivalSpeed = data.survivalSpeed + 5
-            } else if (json.value == 'decrease' & data.survivalSpeed > 10) {
+            }
+            data.survivalSpeed = Math.round(data.survivalSpeed / 5) * 5
+            broadcastAll({ survivalSpeed: data.survivalSpeed }, true)
+            break
+
+          case 'decrease':
+            if (data.survivalSpeed > 10) {
               data.survivalSpeed = data.survivalSpeed - 5
             }
             data.survivalSpeed = Math.round(data.survivalSpeed / 5) * 5

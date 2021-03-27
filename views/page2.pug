@@ -26,20 +26,20 @@ html
         .center-align#state(style="width: 100%;") State: #{state}
       .card-panel.row.valign-wrapper
         .col.s2.center-align
-          button#decrease(style='font-weight: bold;') -
+          button.button#decrease(style='font-weight: bold;') -
         .col.s8.center-align
           #survivalSpeed Survival Speed: #{survivalSpeed} km/h
         .col.s2.center-align
-          button#increase(style='font-weight: bold;') +
+          button.button#increase(style='font-weight: bold;') +
       .card-panel.valign-wrapper
         .center-align(style="width: 100%;")
           a(style='margin-right: 10px;') Tracking Mode:
-          button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
+          button.button#trackingMode(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}
       .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
         .col.s6.center-align(style='padding: 0px;')
           button#logout(style='width: 120px;') Logout
         .col.s6.center-align(style='padding: 0px;')
-          button#power(style='width: 120px;') #{power ? 'Turn Off' : 'Turn On'}
+          button.button#power(style='width: 120px;') #{power ? 'Turn Off' : 'Turn On'}
     script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
     script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
     script(src='page2.js')

@@ -38,22 +38,22 @@ html
             .card-panel.valign-wrapper(style='height: 100%;')
               .center-align
                 a(style='margin-right: 10px;') Tracking Mode:
-                button#tracking(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}        
+                button.button#trackingMode(style='width: 120px;') #{activeTracking ? 'Active' : 'Auto'}        
         .col.s12.l4(style='height: 100%; padding: 0px;')
           div(style='height: 50%; padding: 5px;')
             .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
               .col.s3.l2.right-align(style='padding: 0px;')
-                button#decrease(style='font-weight: bold; width: 38px;') -
+                button.button#decrease(style='font-weight: bold; width: 38px;') -
               .col.s6.l8.center-align(style='padding: 0px;')
                 #survivalSpeed Survival Speed: #{survivalSpeed} km/h
               .col.s3.l2.left-align(style='padding: 0px;')
-                button#increase(style='font-weight: bold; width: 38px;') +
+                button.button#increase(style='font-weight: bold; width: 38px;') +
           div(style='height: 50%; padding: 5px;')
             .card-panel.row.valign-wrapper(style='margin: 0px; height: 100%;')
               .col.s6.center-align(style='padding: 0px;')
                 button#logout(style='width: 120px;') Logout
               .col.s6.center-align(style='padding: 0px;')
-                button#power(style='width: 120px;') #{power ? 'Turn Off' : 'Turn On'}             
+                button.button#power(style='width: 120px;') #{power ? 'Turn Off' : 'Turn On'}             
     script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js")
     script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js")
     script(src="https://www.gstatic.com/firebasejs/8.2.4/firebase-firestore.js")
