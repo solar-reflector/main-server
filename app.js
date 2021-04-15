@@ -215,6 +215,19 @@ async function getDB() {
 getDB()
 
 ///////////////////////////////////////////////////////////////////////////////
+// Sample inverter power values
+var power = 250
+setInterval(() => {
+  if (power > 330) power = 310
+  if (power < 150) power = 190
+  power += Math.floor((Math.random() * 2 - 1) * 20)
+  var date = admin.firestore.FieldValue.serverTimestamp()
+  admin.firestore().collection("data")
+    .add({ mode: 'normal', value: power, date: date })
+    .catch(() => console.log('Error upating Firestore.'))
+}, 30 * 60 * 1000)
+
+///////////////////////////////////////////////////////////////////////////////
 // Start server
 const port = process.env.PORT || 8080
 server.listen(port, () => {

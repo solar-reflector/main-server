@@ -18,12 +18,12 @@ var config = {
             xAxes: [{
                 type: 'time',
                 time: {
-                    unit: 'minute'
+                    unit: 'hour'
                 }
             }],
             yAxes: [{
                 ticks: {
-                    suggestedMin: 300,
+                    suggestedMin: 200,
                     suggestedMax: 440
                 },
                 scaleLabel: {
