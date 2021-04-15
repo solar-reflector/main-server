@@ -25,7 +25,11 @@ var config = {
                 ticks: {
                     suggestedMin: 300,
                     suggestedMax: 440
-                }
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Power (W)'
+                  }
             }]
         },
         animation: {
